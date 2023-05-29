@@ -80,4 +80,4 @@ README〜ER図作成：5/23 〆切
 - Google Cloud APIs
 
 ■画面遷移図
-https://www.figma.com/file/jplv2HbVb1SVQUHk3hTjb9/Untitled?type=design&node-id=0-1&t=rn4HDtopyvU8MYFz-0
+https://www.figma.com/file/jplv2HbVb1SVQUHk3hTjb9/Untitled?type=design&node-id=0%3A1&t=rn4HDtopyvU8MYFz-1
