@@ -46,3 +46,15 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'devise'
+# LINEログインのためのgem
+gem 'omniauth-line'
+# omniauthの拡張gem
+gem 'omniauth-rails_csrf_protection'
+# 環境変数を管理するgem
+gem 'dotenv-rails'
+# LINEbotを開発するためのgem
+gem 'line-bot-api'
+
+gem 'bootstrap'
