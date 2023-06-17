@@ -16,7 +16,6 @@ class OmniauthCallbacksController < ApplicationController
       @profile.set_values(@omniauth)
       sign_in(:user, @profile)
     end
-    binding.irb
     #ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
     redirect_to root_path
