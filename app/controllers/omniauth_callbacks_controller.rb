@@ -18,7 +18,7 @@ class OmniauthCallbacksController < ApplicationController
     end
     #ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
-    redirect_to expendable_items_path
+    redirect_to root_path
   end
 
   def fake_email(uid, provider)
