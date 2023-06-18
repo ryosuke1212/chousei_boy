@@ -8,6 +8,14 @@
         <div class="flex justify-center mb-4">
           <%= image_tag "https://qr-official.line.me/sid/L/569pfhfs.png", class: 'w-64 mx-auto', size: '150x150' %>
         </div>
+
+        <% if current_user %>
+          <h2 class="text-2xl font-semibold mb-3">Welcome, <%= current_user.name %>!</h2>
+        <% else %>
+          <h2 class="text-2xl font-semibold mb-3">Welcome, Guest!</h2>
+        <% end %>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-primary' %>
+
         <h1 class="text-3xl font-bold mb-3">調整ボーイ</h1>
         <div class="flex justify-center">
           <div class="line-it-button" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@508snqhw" style="display: none;"></div>
@@ -45,14 +53,14 @@
   <div class="hero bg-gray-50">
     <div class="hero-content text-center px-5 py-12">
       <div class="max-w-md">
-        <div class="flex justify-center mb-4">
-          <%= image_tag "https://qr-official.line.me/sid/L/569pfhfs.png", class: 'w-64 mx-auto', size: '150x150' %>
-        </div>
         <div class="flex justify-center mb-10">
           <div class="line-it-button mt-1" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@508snqhw" style="display: none;"></div>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-4">
           <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+        </div>
+        <div class="flex justify-center">
+          <%= image_tag "https://qr-official.line.me/sid/L/569pfhfs.png", class: 'w-64 mx-auto', size: '150x150' %>
         </div>
       </div>
     </div>
