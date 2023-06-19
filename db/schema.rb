@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_19_044557) do
+ActiveRecord::Schema.define(version: 2023_06_19_060054) do
+
+  create_table "line_groups", force: :cascade do |t|
+    t.string "line_group_id"
+    t.string "line_group_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "schedules", force: :cascade do |t|
     t.string "title"
