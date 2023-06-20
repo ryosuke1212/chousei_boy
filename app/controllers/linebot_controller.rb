@@ -8,9 +8,6 @@ class LinebotController < ApplicationController
     #   error 400 do 'Bad Request' end
     # end
     events = client.parse_events_from(body)
-
-    binding.irb
-
     events.each do |event|
       case event
       when Line::Bot::Event::Message
@@ -22,7 +19,7 @@ class LinebotController < ApplicationController
           }
         end
       end
-      client.reply_message(event['replyToken'], message)
+      p client.reply_message(event['replyToken'], message)
     end
     head :ok
   end
