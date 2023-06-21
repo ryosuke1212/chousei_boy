@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Schedules</h1>
 
-  <%= link_to 'New Schedule', schedules_path, path: :post,class: 'btn btn-primary mb-3' %>
+  <%= link_to 'New Schedule', schedules_path, method: :post,class: 'btn btn-primary mb-3' %>
 
   <div class="row row-cols-1 row-cols-md-2 gx-4 gx-lg-5">
     <% @schedules.each do |schedule| %>
