@@ -1,0 +1,33 @@
+<div class="container">
+  <h1>Schedules</h1>
+
+  <%= link_to 'New Schedule', schedules_path, path: :post,class: 'btn btn-primary mb-3' %>
+
+  <div class="row row-cols-1 row-cols-md-2 gx-4 gx-lg-5">
+    <% @schedules.each do |schedule| %>
+      <div class="col mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= schedule.title %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Location: <%= schedule.location %></h6>
+            <p class="card-text">
+              Description: <%= schedule.description %><br>
+              Representative: <%= schedule.representative %><br>
+              <% if schedule.start_time %>
+                Start Time: <%= schedule.start_time.strftime("%m月%d日（%a） %H時%M分") %><br>
+              <% end %>
+              <% if schedule.end_time %>
+                End Time: <%= schedule.end_time.strftime("%m月%d日（%a） %H時%M分") %><br>
+              <% end %>
+              <% if schedule.deadline %>
+                Deadline: <%= schedule.deadline.strftime("%m月%d日（%a） %H時%M分") %><br>
+              <% end %>
+            </p>
+            <%= link_to 'Edit', edit_schedule_path(schedule), class: 'card-link' %>
+            <%= link_to 'Delete', schedule, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-link' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
