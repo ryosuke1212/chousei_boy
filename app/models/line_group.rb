@@ -1,0 +1,2 @@
+class LineGroup < ApplicationRecord
+end
