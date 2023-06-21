@@ -19,12 +19,7 @@ class LinebotController < ApplicationController
           }
         end
       end
-      p "-------------------------------------------------"
-      p event['replyToken']
-      p "-------------------------------------------------"
-      p client
-      p "-------------------------------------------------"
-      p client.reply_message(event['replyToken'], message)
+      client.reply_message(event['replyToken'], message)
     end
     head :ok
   end
