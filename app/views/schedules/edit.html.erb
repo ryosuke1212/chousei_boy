@@ -1,52 +1,66 @@
 <div class="container">
-  <h1>Edit Schedule</h1>
+  <h1>スケジュール編集</h1>
 
   <%= form_with(model: @schedule, url: schedule_path(@schedule), method: :patch) do |form| %>
-    <div class="form-group">
-      <%= form.label :title %>
-      <%= form.text_field :title, class: 'form-control' %>
+    <div class="form-group row">
+      <%= form.label :title, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.text_field :title, class: 'form-control' %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :location %>
-      <%= form.text_field :location, class: 'form-control' %>
+    <div class="form-group row">
+      <%= form.label :location, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.text_field :location, class: 'form-control' %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :description %>
-      <%= form.text_area :description, class: 'form-control' %>
+    <div class="form-group row">
+      <%= form.label :description, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.text_area :description, class: 'form-control' %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :representative %>
-      <%= form.text_field :representative, class: 'form-control' %>
+    <div class="form-group row">
+      <%= form.label :representative, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.text_field :representative, class: 'form-control' %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :start_time %>
-      <% if @schedule.start_time %>
-        <%= form.datetime_select :start_time, default: @schedule.start_time, class: 'form-control' %>
-      <% else %>
-        <%= form.datetime_select :start_time, include_blank: true, class: 'form-control' %>
-      <% end %>
+    <div class="form-group row">
+      <%= form.label :start_time, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <% if @schedule.start_time %>
+          <%= form.datetime_select :start_time, default: @schedule.start_time, class: 'form-control' %>
+        <% else %>
+          <%= form.datetime_select :start_time, include_blank: true, class: 'form-control' %>
+        <% end %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :end_time %>
-      <% if @schedule.end_time %>
-        <%= form.datetime_select :end_time, default: @schedule.end_time, class: 'form-control' %>
-      <% else %>
-        <%= form.datetime_select :end_time, include_blank: true, class: 'form-control' %>
-      <% end %>
+    <div class="form-group row">
+      <%= form.label :end_time, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <% if @schedule.end_time %>
+          <%= form.datetime_select :end_time, default: @schedule.end_time, class: 'form-control' %>
+        <% else %>
+          <%= form.datetime_select :end_time, include_blank: true, class: 'form-control' %>
+        <% end %>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :deadline %>
-      <% if @schedule.deadline %>
-        <%= form.date_select :deadline, default: @schedule.deadline, class: 'form-control' %>
-      <% else %>
-        <%= form.date_select :deadline, include_blank: true, class: 'form-control' %>
-      <% end %>
+    <div class="form-group row">
+      <%= form.label :deadline, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <% if @schedule.deadline %>
+          <%= form.date_select :deadline, default: @schedule.deadline, class: 'form-control' %>
+        <% else %>
+          <%= form.date_select :deadline, include_blank: true, class: 'form-control' %>
+        <% end %>
+      </div>
     </div>
 
     <%= form.submit 'Update', class: 'btn btn-primary' %>
