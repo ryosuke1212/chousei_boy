@@ -10,13 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_22_112006) do
+ActiveRecord::Schema.define(version: 2023_06_22_120037) do
 
   create_table "line_groups", force: :cascade do |t|
     t.string "line_group_id"
     t.string "line_group_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "line_groups_users", id: false, force: :cascade do |t|
+    t.integer "line_group_id", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "schedules", force: :cascade do |t|
