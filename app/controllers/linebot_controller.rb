@@ -13,10 +13,27 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          message = {
-            type: 'text',
-            text: event.message['text']
-          }
+          if event.message['text'] == '予定作成'
+            if event['source']['groupId']
+              groupId = event['source']['groupId']
+              Schedule.create(line_group_id: groupId)
+              message = {
+                type: 'text',
+                text: '予定を作成しました。'
+              }
+            elsif event['source']['userId']
+              Schedule.create(user_id: event['source']['userId'])
+              message = {
+                type: 'text',
+                text: '予定を作成しました。'
+              }
+            end
+          else
+            message = {
+              type: 'text',
+              text: event.message['text']
+            }
+          end
         end
       end
       client.reply_message(event['replyToken'], message)
@@ -24,9 +41,8 @@ class LinebotController < ApplicationController
     head :ok
   end
 
-private
+  private
 
-# LINE Developers登録完了後に作成される環境変数の認証
   def client
     @client ||= Line::Bot::Client.new { |config|
       config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
