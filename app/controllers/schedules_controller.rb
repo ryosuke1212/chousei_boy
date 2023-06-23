@@ -1,6 +1,9 @@
 class SchedulesController < ApplicationController
   def index
-    @schedules = Schedule.all
+    user_schedules = Schedule.where(user_id: current_user.uid)
+    line_group_ids = current_user.line_groups.pluck(:line_group_id)
+    group_schedules = Schedule.where(line_group_id: line_group_ids)
+    @schedules = user_schedules.or(group_schedules)
   end
 
   def create

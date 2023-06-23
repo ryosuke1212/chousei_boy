@@ -13,6 +13,17 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
+          # LINEグループとユーザーを紐付ける
+          if event['source']['groupId'] && event['source']['userId']
+            line_group_id = event['source']['groupId']
+            user_id = event['source']['userId']
+            user = User.find_by(uid: user_id)
+            if user
+              line_group = LineGroup.find_or_create_by(line_group_id: line_group_id)
+              LineGroupsUser.create(line_group_id: line_group.id, user_id: user.id)
+            end
+          end
+
           if event.message['text'] == '予定作成'
             if event['source']['groupId']
               groupId = event['source']['groupId']
