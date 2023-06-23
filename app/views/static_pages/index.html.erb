@@ -11,10 +11,11 @@
 
         <% if current_user %>
           <h2 class="text-2xl font-semibold mb-3">Welcome, <%= current_user.name %>!</h2>
+          <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-primary' %>
         <% else %>
           <h2 class="text-2xl font-semibold mb-3">Welcome, Guest!</h2>
+          <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
         <% end %>
-        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-primary' %>
 
         <h1 class="text-3xl font-bold mb-3">調整ボーイ</h1>
         <div class="flex justify-center">
