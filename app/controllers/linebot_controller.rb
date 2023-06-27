@@ -10,6 +10,21 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
     events.each do |event|
       case event
+      when Line::Bot::Event::Join
+        message_1 = {
+          type: 'text',
+          text: 'こんにちは！グループに追加してくれてありがとう！私は予定調整botの調整ボーイです！'
+        }
+        message_2 = {
+          type: 'text',
+          text: '会う約束をしたけど「何するか決まらない」「日程が決まらない」なんてことありませんか？何が決まっていないか明確にしておきましょう！予定が立ったら次のボタンで予定を作成しましょう！'
+        }
+        flex_message = {
+          type: 'flex',
+          altText: 'メッセージを送信しました',
+          contents: join_message
+        }
+        client.reply_message(event['replyToken'], [message_1, message_2, flex_message])
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
@@ -95,5 +110,10 @@ class LinebotController < ApplicationController
     message["body"]["contents"][4]["contents"][2]["contents"][1]["text"] = schedule.deadline.to_s if schedule.deadline
 
     message
+  end
+
+  def join_message
+    file_path = Rails.root.join('app', 'messages', 'join_message.json')
+    message = JSON.parse(File.read(file_path))
   end
 end
