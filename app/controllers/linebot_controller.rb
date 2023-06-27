@@ -61,11 +61,12 @@ class LinebotController < ApplicationController
               }
               client.reply_message(event['replyToken'], [message, flex_message])
             end
-            message = {
-              type: 'text',
-              text: event.message['text']
-            }
-            client.reply_message(event['replyToken'], message)
+          elsif
+          message = {
+            type: 'text',
+            text: event.message['text']
+          }
+          client.reply_message(event['replyToken'], message)
           end
         end
       end
