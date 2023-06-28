@@ -28,17 +28,6 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          # LINEグループとユーザーを紐付ける
-          if event['source']['groupId'] && event['source']['userId']
-            line_group_id = event['source']['groupId']
-            user_id = event['source']['userId']
-            user = User.find_by(uid: user_id)
-            if user
-              line_group = LineGroup.find_or_create_by(line_group_id: line_group_id)
-              LineGroupsUser.create(line_group_id: line_group.id, user_id: user.id)
-            end
-          end
-
           if event.message['text'] == '予定作成'
             schedule = nil
             if event['source']['groupId']
@@ -60,7 +49,6 @@ class LinebotController < ApplicationController
               }
               client.reply_message(event['replyToken'], [message, flex_message])
             end
-
           elsif event.message['text'] == '予定一覧'
             user_id = event['source']['userId']
             schedules = Schedule.where(user_id: user_id)
@@ -82,19 +70,18 @@ class LinebotController < ApplicationController
               text: event.message['text']
             }
             client.reply_message(event['replyToken'], message)
-          end # 追加したend
-
-        when Line::Bot::Event::MessageType::Postback
-          if event['postback']['data'] == 'create_schedule_in_group'
-            message = {
-              type: 'text',
-              text: "予定を作成します"
-            }
-            client.reply_message(event['replyToken'], message)
           end
-        end # event.type のケース文の終わり
-      end # event のケース文の終わり
-    end # events.each の終わり
+        end
+      when Line::Bot::Event::Postback
+        if event['postback']['data'] == 'create_schedule_in_group'
+          message = {
+            type: 'text',
+            text: '予定を作成します'
+          }
+          client.reply_message(event['replyToken'], message)
+        end
+      end
+    end
     head :ok
   end
 
