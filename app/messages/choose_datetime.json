@@ -1,0 +1,28 @@
+{
+  "type": "bubble",
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "datetimepicker",
+          "label": "日程を決める",
+          "mode": "datetime",
+          "data": "choose_schedule_date"
+        }
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [],
+        "margin": "sm"
+      }
+    ],
+    "flex": 0
+  }
+}

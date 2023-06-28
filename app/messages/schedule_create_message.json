@@ -101,13 +101,42 @@
         "margin": "xxl"
       },
       {
-        "type": "button",
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
             "action": {
-              "type": "datetimepicker",
-              "label": "action",
-              "data": "hello",
-              "mode": "date"
-        }
+              "type": "uri",
+              "label": "詳細を決める",
+              "uri": "https://chousei-boy-9f11f6556474.herokuapp.com/"
+            },
+            "height": "md",
+            "margin": "xs"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "botで発信",
+              "data": "send_message_from_bot"
+            }
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "予定を削除",
+              "text": "予定を削除"
+            }
+          }
+        ]
       }
     ]
   },
