@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_061411) do
+ActiveRecord::Schema.define(version: 2023_06_28_044228) do
 
   create_table "line_groups", force: :cascade do |t|
     t.string "line_group_id"
