@@ -76,16 +76,25 @@ class LinebotController < ApplicationController
               }
               client.reply_message(event['replyToken'], [message, flex_message])
             end
-          elsif
-          message = {
-            type: 'text',
-            text: event.message['text']
-          }
-          client.reply_message(event['replyToken'], message)
+          else
+            message = {
+              type: 'text',
+              text: event.message['text']
+            }
+            client.reply_message(event['replyToken'], message)
+          end # 追加したend
+
+        when Line::Bot::Event::MessageType::Postback
+          if event['postback']['data'] == 'create_schedule_in_group'
+            message = {
+              type: 'text',
+              text: "予定を作成します"
+            }
+            client.reply_message(event['replyToken'], message)
           end
-        end
-      end
-    end
+        end # event.type のケース文の終わり
+      end # event のケース文の終わり
+    end # events.each の終わり
     head :ok
   end
 
