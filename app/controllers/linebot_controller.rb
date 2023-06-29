@@ -11,6 +11,7 @@ class LinebotController < ApplicationController
     events.each do |event|
       case event
       when Line::Bot::Event::Join
+        line_group = LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
         message_1 = {
           type: 'text',
           text: 'こんにちは！グループに追加してくれてありがとう！私は予定調整botの調整ボーイです！'
@@ -28,6 +29,13 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
+          if event['source']['groupId']
+            line_group = LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
+            user = User.find_by(uid: event['source']['userId'])
+            if user
+              line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
+            end
+          end
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             if schedule && schedule.status == "datetime_status"
               schedule.title = event.message['text']
