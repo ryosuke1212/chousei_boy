@@ -11,6 +11,7 @@ class LinebotController < ApplicationController
     events.each do |event|
       case event
       when Line::Bot::Event::Join
+        line_group = LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
         message_1 = {
           type: 'text',
           text: 'こんにちは！グループに追加してくれてありがとう！私は予定調整botの調整ボーイです！'
@@ -28,20 +29,51 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
+          if event['source']['groupId']
+            line_group = LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
+            user = User.find_by(uid: event['source']['userId'])
+            if user
+              line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
+            end
+          end
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-            if schedule && schedule.status == "datetime_status"
-              schedule.title = event.message['text']
-              schedule.save
-              schedule.update(status: 2)
-              message = {
-                type: 'text',
-                text: "#{event.message['text']}だね！次は日程を教えてね！"
-              }
+            if schedule.status == "created_status"
+              if event.message['text'] == "未定"
+                schedule.update(status: 3)
+                message = {
+                  type: 'text',
+                  text: "まだ日程は決まってないね！これから決めていこう！予定を組んだよ！"
+                }
+                flex_message = {
+                  type: 'flex',
+                  altText: 'メッセージを送信しました',
+                  contents: read_flex_message(schedule)
+                }
+                client.reply_message(event['replyToken'], [message, flex_message])
+              end
+            end
+
+            if schedule.status == "datetime_status"
+              if event.message['text'] == "未定"
+                message = {
+                  type: 'text',
+                  text: "まだ決まってないね！これから決めていこう！日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                }
+                schedule.title = "何するかはこれから決めよう"
+              else
+                schedule.title = event.message['text']
+                schedule.save
+                message = {
+                  type: 'text',
+                  text: "【#{event.message['text']}】だね！日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                }
+              end
               flex_message = {
                 type: 'flex',
                 altText: 'メッセージを送信しました',
                 contents: choose_datetime
               }
+              schedule.update(status: 2)
               client.reply_message(event['replyToken'], [message, flex_message])
             end
           end
@@ -87,9 +119,14 @@ class LinebotController < ApplicationController
                 schedule.destroy
                 message = {
                   type: 'text',
-                  text: '予定を削除しました！'
+                  text: '予定を削除しました！また予定立ててね！'
                 }
-                client.reply_message(event['replyToken'], message)
+                flex_message = {
+                  type: 'flex',
+                  altText: 'メッセージを送信しました',
+                  contents: join_message
+                }
+                client.reply_message(event['replyToken'], [message, flex_message])
               end
           else
             message = {
@@ -135,7 +172,7 @@ class LinebotController < ApplicationController
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             message = {
                 type: 'text',
-                text: "まだ決まってない予定があるよ！皆で決めよう！"
+                text: "まだ決まってない予定があるよ！\n皆で決めよう！"
               }
             flex_message = {
                 type: 'flex',
@@ -159,19 +196,17 @@ class LinebotController < ApplicationController
     }
   end
 
-  def read_flex_message(schedule)
-    file_path = Rails.root.join('app', 'messages', 'schedule_create_message.json')
-    message = JSON.parse(File.read(file_path))
-
-    message["body"]["contents"][0]["text"] = schedule.start_time.to_s if schedule.start_time
-    message["body"]["contents"][1]["text"] = schedule.title.to_s if schedule.title
-    message["body"]["contents"][2]["text"] = schedule.location.to_s if schedule.location
-    message["body"]["contents"][4]["contents"][0]["contents"][1]["text"] = schedule.description.to_s if schedule.description
-    message["body"]["contents"][4]["contents"][1]["contents"][1]["text"] = schedule.representative.to_s if schedule.representative
-    message["body"]["contents"][4]["contents"][2]["contents"][1]["text"] = schedule.deadline.to_s if schedule.deadline
-
-    message
-  end
+def read_flex_message(schedule)
+  file_path = Rails.root.join('app', 'messages', 'schedule_create_message.json')
+  message = JSON.parse(File.read(file_path))
+  message["body"]["contents"][0]["text"] = schedule.start_time.present? ? schedule.start_time.strftime("%-m月%-d日%-H時%-M分") : "日時：未登録"
+  message["body"]["contents"][1]["text"] = schedule.title.present? ? schedule.title : "タイトル：未登録"
+  message["body"]["contents"][2]["text"] = schedule.location.present? ? schedule.location : "場所：未登録"
+  message["body"]["contents"][4]["contents"][0]["contents"][1]["text"] = schedule.description.present? ? schedule.description : "未登録"
+  message["body"]["contents"][4]["contents"][1]["contents"][1]["text"] = schedule.representative.present? ? schedule.representative : "未登録"
+  message["body"]["contents"][4]["contents"][2]["contents"][1]["text"] = schedule.deadline.present? ? schedule.deadline.to_s : "未登録"
+  message
+end
 
   def join_message
     file_path = Rails.root.join('app', 'messages', 'join_message.json')
@@ -186,8 +221,7 @@ class LinebotController < ApplicationController
   def create_action(event)
     if event['source']['groupId']
       groupId = event['source']['groupId']
-      existing_schedule = Schedule.find_by(line_group_id: groupId)
-      if existing_schedule
+      if schedule = Schedule.find_by(line_group_id: groupId)
         @response = "まだ決まっていない予定があるからそっちから決めよう！"
         return
       end
@@ -199,7 +233,7 @@ class LinebotController < ApplicationController
     if schedule
       case schedule.status
       when "title_status"
-        @response = "やることは決まってる？"
+        @response = "何をするか決まってる？チャットで教えてね！（例. 遊び・旅行・飲み会など）決まってなければ「未定」と入力してね！"
         schedule.update(status: 1)
       end
     end
