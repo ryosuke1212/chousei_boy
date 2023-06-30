@@ -1,0 +1,32 @@
+<div class="container">
+  <h1 class="mt-3">予定詳細</h1>
+  <div class="row row-cols-1 row-cols-md-2 gx-4 gx-lg-5">
+    <div class="col mb-4">
+      <div class="card shadow-lg rounded">
+        <div class="card-body">
+          <p class="small">
+            <span class="label">日時:</span>
+            <% if @schedule.start_time && @schedule.end_time %>
+              <%= @schedule.start_time.strftime("%-m月%-d日%-H時%-M分") %> 〜 <%= @schedule.end_time.strftime("%-m月%-d日%-H時%-M分") %>
+            <% elsif @schedule.start_time %>
+              <%= @schedule.start_time.strftime("%-m月%-d日%-H時%-M分") %>
+            <% elsif @schedule.end_time %>
+              〜 <%= @schedule.end_time.strftime("%-m月%-d日%-H時%-M分") %>
+            <% end %>
+          </p>
+          <h5 class="card-title"><%= @schedule.title %></h5>
+          <h6 class="small text-muted"><span class="label">場所:</span> <%= @schedule.location %></h6>
+          <p class="card-text small">
+            <span class="label">内容:</span> <%= @schedule.description %><br>
+            <span class="label">代表者:</span> <%= @schedule.representative %><br>
+            <% if @schedule.deadline %>
+              <span class="label">期日:</span> <%= @schedule.deadline.strftime("%-m月%-d日（%a） %-H時%-M分") %><br>
+            <% end %>
+          </p>
+          <%= link_to 'Edit', edit_schedule_path(@schedule), class: 'card-link' %>
+          <%= link_to 'Delete', @schedule, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

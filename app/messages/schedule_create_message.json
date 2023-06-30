@@ -109,7 +109,7 @@
             "action": {
               "type": "uri",
               "label": "詳細を決める",
-              "uri": "https://chousei-boy-9f11f6556474.herokuapp.com/"
+              "uri": "uri"
             },
             "height": "md",
             "margin": "xs"

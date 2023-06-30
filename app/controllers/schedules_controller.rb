@@ -12,6 +12,10 @@ class SchedulesController < ApplicationController
     redirect_to schedules_path, notice: "予定を登録しました" 
   end
 
+  def show
+    @schedule = Schedule.find_by(url_token: params[:url_token])
+  end
+
   def destroy
     @schedule = Schedule.find(params[:id])
     @schedule.destroy

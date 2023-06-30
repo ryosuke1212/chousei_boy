@@ -205,6 +205,7 @@ def read_flex_message(schedule)
   message["body"]["contents"][4]["contents"][0]["contents"][1]["text"] = schedule.description.present? ? schedule.description : "未登録"
   message["body"]["contents"][4]["contents"][1]["contents"][1]["text"] = schedule.representative.present? ? schedule.representative : "未登録"
   message["body"]["contents"][4]["contents"][2]["contents"][1]["text"] = schedule.deadline.present? ? schedule.deadline.to_s : "未登録"
+  message["body"]["contents"][6]["contents"][0]["action"]["uri"] = "http://localhost:3000/schedules/#{schedule.url_token}"
   message
 end
 
