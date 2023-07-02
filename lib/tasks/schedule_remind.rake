@@ -5,18 +5,18 @@ namespace :schedule_remind do
       config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     }
-    Schedule.where("deadline >= ? AND deadline < ?", Date.today, Date.today + 1.day).each do |schedule|
-      message = {
-          type: 'text',
-          text: "「#{schedule.title}」を皆で決めよう！"
-        }
+    # Schedule.where("deadline >= ? AND deadline < ?", Date.today, Date.today + 1.day).each do |schedule|
+    #   message = {
+    #       type: 'text',
+    #       text: "「#{schedule.title}」を皆で決めよう！"
+    #     }
     #   flex_message = {
     #       type: 'flex',
     #       altText: 'メッセージを送信しました',
     #       contents: read_flex_message(schedule)
     #     }
-      Rails.logger.info "Message: #{message}"
+    Rails.logger.info "hello"
+      # Rails.logger.info "Message: #{message}"
       # client.push_message(schedule.line_group_id, [message, flex_message])
-    end
   end
 end
