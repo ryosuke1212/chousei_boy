@@ -15,7 +15,7 @@ namespace :schedule_remind do
     #       altText: 'メッセージを送信しました',
     #       contents: read_flex_message(schedule)
     #     }
-      puts message
+      Rails.logger.info "Message: #{message}"
       # client.push_message(schedule.line_group_id, [message, flex_message])
     end
   end
