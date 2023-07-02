@@ -65,3 +65,5 @@ gem 'dotenv-rails'
 gem 'line-bot-api'
 
 gem 'bootstrap'
+# 通知機能実装のためのgem
+gem 'whenever', require: false
