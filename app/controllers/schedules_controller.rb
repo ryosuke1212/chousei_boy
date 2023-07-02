@@ -12,18 +12,22 @@ class SchedulesController < ApplicationController
     redirect_to schedules_path, notice: "予定を登録しました" 
   end
 
+  def show
+    @schedule = Schedule.find_by(url_token: params[:url_token])
+  end
+
   def destroy
-    @schedule = Schedule.find(params[:id])
+    @schedule = Schedule.find_by(url_token: params[:url_token])
     @schedule.destroy
     redirect_to schedules_path, notice: "予定が削除されました。"
   end
 
   def edit
-    @schedule = Schedule.find(params[:id])
+    @schedule = Schedule.find_by(url_token: params[:url_token])
   end
 
   def update
-    @schedule = Schedule.find(params[:id])
+    @schedule = Schedule.find_by(url_token: params[:url_token])
     if @schedule.update(schedule_params)
       redirect_to schedules_path, notice: '予定が更新されました。'
     else
