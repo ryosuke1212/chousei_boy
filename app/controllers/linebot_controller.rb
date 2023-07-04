@@ -153,11 +153,18 @@ class LinebotController < ApplicationController
               datetime_param = params["events"][0]["postback"]["params"]["datetime"]
               start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
               schedule.start_time = start_time
+              #代表者をランダムで選ぶ
+              binding.irb
+              group_id = event['source']['groupId']
+              users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+              representative = users.sample.name
+              schedule.representative = representative
+
               schedule.save
               schedule.update(status: 3)
               message = {
                 type: 'text',
-                text: "#{start_time}だね！予定を組んだよ！"
+                text: "#{start_time}だね！予定を組んだよ！代表者も勝手に決めておいたよ！"
               }
               flex_message = {
                 type: 'flex',
@@ -173,7 +180,7 @@ class LinebotController < ApplicationController
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             message = {
                 type: 'text',
-                text: "まだ決まってない予定があるよ！\n皆で決めよう！"
+                text: "@#{schedule.representative}さん！\nまだ決まってない予定があるよ！皆で決めよう！"
               }
             flex_message = {
                 type: 'flex',
