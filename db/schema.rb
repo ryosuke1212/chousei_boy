@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_30_084316) do
+ActiveRecord::Schema.define(version: 2023_07_04_061930) do
+
+  create_table "guest_users", force: :cascade do |t|
+    t.string "guest_uid", null: false
+    t.string "guest_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["guest_uid"], name: "index_guest_users_on_guest_uid", unique: true
+  end
 
   create_table "line_groups", force: :cascade do |t|
     t.string "line_group_id"
