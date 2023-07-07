@@ -11170,3 +11170,78 @@ footer.footer .social-link:hover {
   text-align: center;
   padding: 20px 0;
 }
+
+.schedules {
+  padding: 20px 0;
+}
+
+.schedules .schedule-item {
+  padding: 40px;
+  background: #fff;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.schedules .schedule-item .icon {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.schedules .schedule-item .icon i {
+  color: var(--color-default);
+  font-size: 56px;
+  transition: ease-in-out 0.3s;
+  z-index: 2;
+  position: relative;
+}
+
+.schedules .schedule-item .icon:before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: #eeeeee;
+  border-radius: 50px;
+  z-index: 1;
+  top: 10px;
+  right: -20px;
+  transition: 0.3s;
+}
+
+.schedules .schedule-item h5 {
+  color: var(--color-default);
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  padding-bottom: 8px;
+  font-size: 18px;
+  position: relative;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.schedules .schedule-item p {
+  line-height: 24px;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.schedules .schedule-item .readmore {
+  margin-top: 15px;
+  display: inline-block;
+  color: var(--color-primary);
+}
+
+.schedules .schedule-item:hover .icon:before {
+  background: #00b6a1;
+}
+
+.schedules .service-item:hover h3 {
+  border-color: var(--color-primary);
+}
+
+.card-link.edit-link {
+  color: #78ad34;
+  size: 15px;
+}

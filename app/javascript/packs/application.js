@@ -89,14 +89,14 @@ function fadeIn(el, display) {
 };
 
 window.addEventListener('scroll', function() {
-  const scrollFadeInElements = document.querySelectorAll('.scroll-fade-in');
+    const scrollFadeInElements = document.querySelectorAll('.scroll-fade-in');
 
-  scrollFadeInElements.forEach(function(element) {
-    const elementRect = element.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    scrollFadeInElements.forEach(function(element) {
+        const elementRect = element.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     if (scrollTop > elementRect.top + scrollTop - window.innerHeight) {
-      element.style.opacity = '1';
+        element.style.opacity = '1';
     }
-  });
+    });
 });

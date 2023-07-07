@@ -28,7 +28,10 @@ class SchedulesController < ApplicationController
 
   def update
     @schedule = Schedule.find_by(url_token: params[:url_token])
-    if @schedule.update(schedule_params)
+    start_time = schedule_params[:start_time].blank? ? nil : Time.zone.parse(schedule_params[:start_time])
+    end_time = schedule_params[:end_time].blank? ? nil : Time.zone.parse(schedule_params[:end_time])
+    deadline = schedule_params[:deadline].blank? ? nil : Time.zone.parse(schedule_params[:deadline])
+    if @schedule.update(schedule_params.merge(start_time: start_time, end_time: end_time, deadline: deadline))
       redirect_to schedules_path, notice: '予定が更新されました。'
     else
       render :edit

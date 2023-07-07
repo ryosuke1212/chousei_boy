@@ -1,0 +1,5 @@
+ja:
+  time:
+    formats:
+      default: "%Y年%-m月%-d日 %H:%M"
+      long: "%Y年%-m月%-d日（%A） %H:%M"
