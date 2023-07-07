@@ -99,7 +99,7 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: #E3E0D7;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -10872,7 +10872,7 @@ html {
   height: 100%;
   transition: all 0.4s ease 0s;
   transform: translateX(250px);
-  background: #349652;
+  background: #A9C683;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -10888,7 +10888,7 @@ html {
 .sidebar-nav li.sidebar-nav-item a {
   display: block;
   text-decoration: none;
-  color: #fff;
+  color: #000;
   padding: 15px;
 }
 
@@ -10914,12 +10914,12 @@ html {
 }
 
 .sidebar-nav > .sidebar-brand a {
-  color: #fff;
+  color: #000;
   text-decoration: none;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
+  color: #000;
   background: none;
 }
 
@@ -11008,7 +11008,6 @@ footer.footer .social-link:hover {
   height: 100vh;
   padding-top: 8rem;
   padding-bottom: 8rem;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../assets/img/bg-masthead.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -11108,11 +11107,11 @@ footer.footer .social-link:hover {
 .timeline:before {
   content: '';
   position: absolute;
-  top: 0;
+  top: 40px;
   bottom: 0;
   width: 2px;
   background: #2d2d2d;
-  left: 50%;
+  left: 5%;
   margin-left: -1px;
 }
 
@@ -11124,7 +11123,7 @@ footer.footer .social-link:hover {
 .timeline-event-icon {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 5%;
   transform: translate(-50%, 0);
   background: #2d2d2d;
   color: #fff;
@@ -11137,14 +11136,37 @@ footer.footer .social-link:hover {
 
 .timeline-event-label {
   position: relative;
-  width: 50%;
+  width: 100%;
   padding: 0 20px;
-  left: 50%;
+  left: 5%;
 }
 
 .timeline-event-content {
   position: relative;
-  width: 50%;
+  width: 100%;
   padding: 0 20px;
-  left: 50%;
+  left: 5%;
+}
+
+.usage-guide {
+  border: 1px solid #000;
+  padding: 20px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.usage-guide .fa-circle {
+  color: #A9C683;
+}
+
+.scroll-fade-in {
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px 0;
 }
