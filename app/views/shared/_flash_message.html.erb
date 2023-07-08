@@ -1,0 +1,30 @@
+<% flash.each do |message_type, message| %>
+  <div class="modal fade" id="flashModal" tabindex="-1" role="dialog" aria-labelledby="flashModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="container modal-body">
+          <div class="row">
+            <div class="col-1" style="font-size: 25px">
+              <i class="far fa-check-circle text-success"></i>
+            </div>
+            <div class="edit-success col-11 d-flex align-items-center" style="font-size: 10px;">
+              <%= message %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  $(document).ready(function() {
+    $('#flashModal').modal({
+      backdrop: false,
+      keyboard: false
+    });
+    $('#flashModal').modal('show');
+    setTimeout(function() {
+      $('#flashModal').modal('hide');
+    }, 3000);
+  });
+</script>
+<% end %>
