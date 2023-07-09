@@ -10962,3 +10962,14 @@ footer.footer .social-link:hover {
 .modal-body .close span {
   display: none;
 }
+
+.schedule-edit {
+  padding: 20px 0;
+}
+
+.schedule-edit .schedule-item {
+  border: 1px solid #fff;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+}

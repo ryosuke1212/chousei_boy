@@ -32,7 +32,7 @@
                   <input type="text" id="end_time" name="schedule[end_time]" class="form-control datetimepicker-input" value="<%= @schedule.end_time.strftime('%Y/%m/%d %H:%M') if @schedule.end_time.present? %>">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mb-1">
                 <div class="col-1">
                   <%= form.label :description, class: 'form-label' %>
                 </div>
@@ -40,7 +40,7 @@
                   <%= form.text_area :description, class: 'form-control' %>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mb-1">
                 <div class="col-1">
                   <%= form.label :location, class: 'form-label' %>
                 </div>
@@ -48,7 +48,7 @@
                   <%= form.text_field :location, class: 'form-control' %>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mb-1">
                 <div class="col-1">
                   <%= form.label :representative, class: 'form-label' %>
                 </div>
@@ -56,7 +56,7 @@
                   <%= form.text_field :representative, class: 'form-control' %>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row mb-1">
                 <div class="col-1">
                   <%= form.label :deadline, class: 'form-label' %>
                 </div>
@@ -66,7 +66,10 @@
               </div>
             </div>
             <div class="button-container text-end">
-              <%= form.submit '更新', class: 'btn btn-primary' %>
+              <div class="d-flex justify-content-between mt-3">
+                <%= link_to 'キャンセル', schedules_path, class: 'btn btn-secondary btn-sm' %>
+                <%= form.submit '更新', class: 'btn btn-primary btn-sm' %>
+              </div>
             </div>
           </div>
         </div>
