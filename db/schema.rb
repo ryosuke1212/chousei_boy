@@ -10,13 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_30_084316) do
+ActiveRecord::Schema.define(version: 2023_07_04_074456) do
+
+  create_table "guest_users", force: :cascade do |t|
+    t.string "guest_uid", null: false
+    t.string "guest_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["guest_uid"], name: "index_guest_users_on_guest_uid", unique: true
+  end
 
   create_table "line_groups", force: :cascade do |t|
     t.string "line_group_id"
     t.string "line_group_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "line_groups_guest_users", force: :cascade do |t|
+    t.integer "line_group_id", null: false
+    t.integer "guest_user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["guest_user_id"], name: "index_line_groups_guest_users_on_guest_user_id"
+    t.index ["line_group_id"], name: "index_line_groups_guest_users_on_line_group_id"
   end
 
   create_table "line_groups_users", id: false, force: :cascade do |t|
@@ -55,4 +72,6 @@ ActiveRecord::Schema.define(version: 2023_06_30_084316) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "line_groups_guest_users", "guest_users"
+  add_foreign_key "line_groups_guest_users", "line_groups"
 end

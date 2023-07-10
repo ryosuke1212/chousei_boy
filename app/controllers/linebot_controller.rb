@@ -35,6 +35,22 @@ class LinebotController < ApplicationController
             user = User.find_by(uid: event['source']['userId'])
             if user
               line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
+            else
+              # ゲストユーザーを作る
+              guest_user = GuestUser.find_or_create_by(guest_uid: event['source']['userId'])
+              line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
+              # ゲストユーザーの名前を取得し保存する
+              uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
+              request = Net::HTTP::Get.new(uri)
+              request["Authorization"] = "Bearer #{ENV["LINE_CHANNEL_TOKEN"]}"
+              req_options = {
+                use_ssl: uri.scheme == "https",
+              }
+              response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+                http.request(request)
+              end
+              user_profile = JSON.parse(response.body)
+              guest_user.update(guest_name: user_profile["displayName"])
             end
           end
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
@@ -153,11 +169,18 @@ class LinebotController < ApplicationController
               datetime_param = params["events"][0]["postback"]["params"]["datetime"]
               start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
               schedule.start_time = start_time
+              #代表者をランダムで選ぶ
+              group_id = event['source']['groupId']
+              users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+              guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+              all_users = users + guest_users
+              representative = all_users.sample.name
+              schedule.representative = representative
               schedule.save
               schedule.update(status: 3)
               message = {
                 type: 'text',
-                text: "#{start_time}だね！予定を組んだよ！"
+                text: "#{start_time}だね！予定を組んだよ！代表者も勝手に決めておいたよ！"
               }
               flex_message = {
                 type: 'flex',
@@ -173,7 +196,7 @@ class LinebotController < ApplicationController
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             message = {
                 type: 'text',
-                text: "まだ決まってない予定があるよ！\n皆で決めよう！"
+                text: "@#{schedule.representative}さん！\nまだ決まってない予定があるよ！皆で決めよう！"
               }
             flex_message = {
                 type: 'flex',
