@@ -10973,3 +10973,7 @@ footer.footer .social-link:hover {
   background-color: #fff;
   border-radius: 10px;
 }
+
+.login-container {
+  padding: 20px 0;
+}
