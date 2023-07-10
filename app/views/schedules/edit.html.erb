@@ -1,69 +1,110 @@
-<div class="container">
-  <h1>スケジュール編集</h1>
-
-  <%= form_with(model: @schedule, url: schedule_path(@schedule), method: :patch) do |form| %>
-    <div class="form-group row">
-      <%= form.label :title, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <%= form.text_field :title, class: 'form-control' %>
-      </div>
+<div class="schedule-edit">
+  <div class="container mt-1">
+    <div class="section-header text-center">
+      <h4>予定の編集</h4>
     </div>
-
-    <div class="form-group row">
-      <%= form.label :location, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <%= form.text_field :location, class: 'form-control' %>
+    <%= form_with(model: @schedule, local: true) do |form| %>
+      <div class="row gy-4" data-aos-delay="100">
+        <div class="col-lg-4 col-md-6">
+          <div class="schedule-item" style="padding: 5px">
+            <div class="container">
+              <div class="form-group row mb-4">
+                <div class="col-1">
+                  <%= form.label :title, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <%= form.text_field :title, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-1">
+                  <%= form.label :start_time, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <input type="text" id="start_time" name="schedule[start_time]" class="form-control datetimepicker-input" value="<%= @schedule.start_time.strftime('%Y/%m/%d %H:%M') if @schedule.start_time.present? %>">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-1">
+                  <%= form.label :end_time, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <input type="text" id="end_time" name="schedule[end_time]" class="form-control datetimepicker-input" value="<%= @schedule.end_time.strftime('%Y/%m/%d %H:%M') if @schedule.end_time.present? %>">
+                </div>
+              </div>
+              <div class="form-group row mb-1">
+                <div class="col-1">
+                  <%= form.label :description, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <%= form.text_area :description, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group row mb-1">
+                <div class="col-1">
+                  <%= form.label :location, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <%= form.text_field :location, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group row mb-1">
+                <div class="col-1">
+                  <%= form.label :representative, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <%= form.text_field :representative, class: 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group row mb-1">
+                <div class="col-1">
+                  <%= form.label :deadline, class: 'form-label' %>
+                </div>
+                <div class="col-11">
+                  <input type="text" id="deadline" name="schedule[deadline]" class="form-control datetimepicker-input" value="<%= @schedule.deadline.strftime('%Y/%m/%d') if @schedule.deadline.present? %>">
+                </div>
+              </div>
+            </div>
+            <div class="button-container text-end">
+              <div class="d-flex justify-content-between mt-3">
+                <%= link_to 'キャンセル', schedules_path, class: 'btn btn-secondary btn-sm' %>
+                <%= form.submit '更新', class: 'btn btn-primary btn-sm' %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group row">
-      <%= form.label :description, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <%= form.text_area :description, class: 'form-control' %>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <%= form.label :representative, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <%= form.text_field :representative, class: 'form-control' %>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <%= form.label :start_time, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <% if @schedule.start_time %>
-          <%= form.datetime_select :start_time, default: @schedule.start_time, class: 'form-control' %>
-        <% else %>
-          <%= form.datetime_select :start_time, include_blank: true, class: 'form-control' %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <%= form.label :end_time, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <% if @schedule.end_time %>
-          <%= form.datetime_select :end_time, default: @schedule.end_time, class: 'form-control' %>
-        <% else %>
-          <%= form.datetime_select :end_time, include_blank: true, class: 'form-control' %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <%= form.label :deadline, class: 'col-sm-2 col-form-label' %>
-      <div class="col-sm-10">
-        <% if @schedule.deadline %>
-          <%= form.date_select :deadline, default: @schedule.deadline, class: 'form-control' %>
-        <% else %>
-          <%= form.date_select :deadline, include_blank: true, class: 'form-control' %>
-        <% end %>
-      </div>
-    </div>
-
-    <%= form.submit 'Update', class: 'btn btn-primary' %>
-    <%= link_to 'Cancel', schedules_path, class: 'btn btn-secondary' %>
-  <% end %>
+    <% end %>
+  </div>
 </div>
+
+<!-- flatpickrのjavascriptコード -->
+<script>
+  flatpickr("#start_time", {
+    enableTime: true,
+    dateFormat: "Y/m/d H:i",
+    locale: "ja"
+  });
+
+  flatpickr("#end_time", {
+    enableTime: true,
+    dateFormat: "Y/m/d H:i",
+    locale: "ja"
+  });
+
+  flatpickr("#deadline", {
+    enableTime: false,
+    dateFormat: "Y/m/d",
+    locale: "ja"
+  });
+</script>
+
+<style>
+  /* 全体の文字サイズを小さくする */
+  .form-control {
+    font-size: 12px;
+  }
+  .form-label {
+    font-size: 12px;
+  }
+</style>

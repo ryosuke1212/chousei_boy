@@ -28,7 +28,8 @@ module ChouseiBoy
     config.time_zone = 'Tokyo'
     # DBを読み書きする際に、DBに記録されている時間をどのタイムゾーンで読み込むかの設定
     config.active_record.default_timezone = :local
-
+    # デフォルトのlocaleを日本語(:ja)にする
+    config.i18n.default_locale = :ja
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
