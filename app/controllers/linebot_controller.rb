@@ -105,42 +105,6 @@ class LinebotController < ApplicationController
             end
           end
           case event.message['text']
-          when '予定作成'
-            schedule = nil
-            if event['source']['groupId']
-              groupId = event['source']['groupId']
-              schedule = Schedule.create(line_group_id: groupId)
-            elsif event['source']['userId']
-              schedule = Schedule.create(user_id: event['source']['userId'])
-            end
-          
-            if schedule
-              message = {
-                type: 'text',
-                text: '予定を作成しました。'
-              }
-              flex_message = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: read_flex_message(schedule)
-              }
-              client.reply_message(event['replyToken'], [message, flex_message])
-            end
-          when '予定一覧'
-            user_id = event['source']['userId']
-            schedules = Schedule.where(user_id: user_id)
-            schedules.each do |schedule|
-              message = {
-                type: 'text',
-                text: '予定一覧です'
-              }
-              flex_message = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: read_flex_message(schedule)
-              }
-              client.reply_message(event['replyToken'], [message, flex_message])
-            end
           when '予定を削除'
             schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             if schedule
