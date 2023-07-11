@@ -67,7 +67,11 @@
             </div>
             <div class="button-container text-end">
               <div class="d-flex justify-content-between mt-3">
-                <%= link_to 'キャンセル', schedules_path, class: 'btn btn-secondary btn-sm' %>
+                <% if current_user %>
+                  <%= link_to 'キャンセル', schedules_path, class: 'btn btn-secondary btn-sm' %>
+                <% else %>
+                  <%= link_to 'キャンセル', schedule_path(@schedule), class: 'btn btn-secondary btn-sm' %>
+                <% end %>
                 <%= form.submit '更新', class: 'btn btn-primary btn-sm' %>
               </div>
             </div>

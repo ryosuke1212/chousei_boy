@@ -32,7 +32,11 @@ class SchedulesController < ApplicationController
     end_time = schedule_params[:end_time].blank? ? nil : Time.zone.parse(schedule_params[:end_time])
     deadline = schedule_params[:deadline].blank? ? nil : Time.zone.parse(schedule_params[:deadline])
     if @schedule.update(schedule_params.merge(start_time: start_time, end_time: end_time, deadline: deadline))
-    redirect_to schedules_path, flash: { success: '編集したよ！botに通知させるにはbotの「通知」を押してね！' }
+      if current_user
+        redirect_to schedules_path, flash: { success: '編集したよ！botに通知させるにはbotの「発信」を押してね！' }
+      else
+        redirect_to schedule_path, flash: { success: '編集したよ！botに通知させるにはbotの「発信」を押してね！' }
+      end
     else
       render :edit
     end
