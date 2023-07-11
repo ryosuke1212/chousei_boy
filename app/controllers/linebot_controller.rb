@@ -76,6 +76,7 @@ class LinebotController < ApplicationController
                   altText: 'メッセージを送信しました',
                   contents: read_flex_message(schedule)
                 }
+                sleep 3
                 client.reply_message(event['replyToken'], [message, flex_message])
               end
             end
@@ -101,6 +102,7 @@ class LinebotController < ApplicationController
                 contents: choose_datetime
               }
               schedule.update(status: 2)
+              sleep 3
               client.reply_message(event['replyToken'], [message, flex_message])
             end
           end
@@ -187,6 +189,7 @@ class LinebotController < ApplicationController
                 altText: 'メッセージを送信しました',
                 contents: read_flex_message(schedule)
               }
+              sleep 3
               client.reply_message(event['replyToken'], [message, flex_message])
             end
           end
