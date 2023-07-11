@@ -10,11 +10,11 @@
             <div class="container">
               <h5 style="margin-bottom: 0;"><%= schedule.title %></h5>
               <p><%= schedule.description %></p>
-              <p>開始: <%= l(schedule.start_time, format: :default, locale: :ja) if schedule.start_time %></p>
-              <p>終了: <%= l(schedule.end_time, format: :default, locale: :ja) if schedule.end_time %></p>
-              <p>場所: <%= schedule.location %></p>
-              <p>代表: <%= schedule.representative %></p>
-              <p>締切: <%= l(schedule.deadline, format: :default, locale: :ja) if schedule.deadline %></p>
+              <p><%= Schedule.human_attribute_name(:start_time) %>: <%= l(schedule.start_time, format: :default, locale: :ja) if schedule.start_time %></p>
+              <p><%= Schedule.human_attribute_name(:end_time) %>: <%= l(schedule.end_time, format: :default, locale: :ja) if schedule.end_time %></p>
+              <p><%= Schedule.human_attribute_name(:location) %>: <%= schedule.location %></p>
+              <p><%= Schedule.human_attribute_name(:representative) %>: <%= schedule.representative %></p>
+              <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :default, locale: :ja) if schedule.deadline %></p>
             </div>
             <div class="button-container text-end">
               <%= link_to edit_schedule_path(schedule), class: 'card-link edit-link' do %>
