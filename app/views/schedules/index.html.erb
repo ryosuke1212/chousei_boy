@@ -14,7 +14,7 @@
               <p><%= Schedule.human_attribute_name(:description) %>: <%= schedule.description %></p>
               <p><%= Schedule.human_attribute_name(:location) %>: <%= schedule.location %></p>
               <p><%= Schedule.human_attribute_name(:representative) %>: <%= schedule.representative %></p>
-              <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :default, locale: :ja) if schedule.deadline %></p>
+              <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :date_only, locale: :ja) if schedule.deadline %></p>
             </div>
             <div class="button-container text-end">
               <%= link_to edit_schedule_path(schedule), class: 'card-link edit-link' do %>
