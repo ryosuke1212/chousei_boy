@@ -9,9 +9,9 @@
           <div class="schedule-item" style="padding: 5px">
             <div class="container">
               <h5 style="margin-bottom: 0;"><%= schedule.title %></h5>
-              <p><%= schedule.description %></p>
               <p><%= Schedule.human_attribute_name(:start_time) %>: <%= l(schedule.start_time, format: :default, locale: :ja) if schedule.start_time %></p>
               <p><%= Schedule.human_attribute_name(:end_time) %>: <%= l(schedule.end_time, format: :default, locale: :ja) if schedule.end_time %></p>
+              <p><%= Schedule.human_attribute_name(:description) %>: <%= schedule.description %></p>
               <p><%= Schedule.human_attribute_name(:location) %>: <%= schedule.location %></p>
               <p><%= Schedule.human_attribute_name(:representative) %>: <%= schedule.representative %></p>
               <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :default, locale: :ja) if schedule.deadline %></p>
