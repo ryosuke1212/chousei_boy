@@ -12,7 +12,7 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-window.addEventListener('DOMContentLoaded', event => {
+window.addEventListener('turbolinks:load', event => {
 
     const sidebarWrapper = document.getElementById('sidebar-wrapper');
     let scrollToTopVisible = false;
