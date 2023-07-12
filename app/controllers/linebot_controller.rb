@@ -31,9 +31,8 @@ class LinebotController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           if event['source']['groupId']
-            line_group = LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
-            user = User.find_by(uid: event['source']['userId'])
-            if user
+            line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
+            if user = User.find_by(uid: event['source']['userId'])
               line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
             else
               # ゲストユーザーを作る
@@ -52,93 +51,92 @@ class LinebotController < ApplicationController
               user_profile = JSON.parse(response.body)
               guest_user.update(guest_name: user_profile["displayName"])
             end
-          end
-          if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-            if schedule.status == "created_status"
-              if event.message['text'] == "未定"
-                #代表者をランダムで選ぶ
-                group_id = event['source']['groupId']
-                users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
-                guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: group_id })
-                all_users = users + guest_users
-                representative = all_users.sample.name
-                schedule.representative = representative
-                # deadlineを設定する。start_timeが存在する場合はそれを超えないようにする。
-                schedule.deadline = DateTime.now + 3.days
-                schedule.save
-                schedule.update(status: 3)
-                message = {
-                  type: 'text',
-                  text: "まだ日程は決まってないね！3日後までに決めちゃおう！代表者も勝手に決めちゃったよ！\n#{schedule.representative}さんよろしく！"
-                }
+            if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
+              if schedule.status == "datetime_status"
+                if event.message['text'] == "未定"
+                  message = {
+                    type: 'text',
+                    text: "まだ決まってないね！これから決めていこう！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                  }
+                  schedule.title = "何するかはこれから決めよう"
+                else
+                  schedule.title = event.message['text']
+                  schedule.save
+                  message = {
+                    type: 'text',
+                    text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                  }
+                end
                 flex_message = {
                   type: 'flex',
                   altText: 'メッセージを送信しました',
-                  contents: read_flex_message(schedule)
+                  contents: choose_datetime
                 }
+                schedule.update(status: 2)
                 client.reply_message(event['replyToken'], [message, flex_message])
               end
-            end
-
-            if schedule.status == "datetime_status"
-              if event.message['text'] == "未定"
-                message = {
-                  type: 'text',
-                  text: "まだ決まってないね！これから決めていこう！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
-                }
-                schedule.title = "何するかはこれから決めよう"
-              else
-                schedule.title = event.message['text']
-                schedule.save
-                message = {
-                  type: 'text',
-                  text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
-                }
+              if schedule.status == "created_status"
+                if event.message['text'] == "未定"
+                  #代表者をランダムで選ぶ
+                  group_id = event['source']['groupId']
+                  users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+                  guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+                  all_users = users + guest_users
+                  representative = all_users.sample.name
+                  schedule.representative = representative
+                  # deadlineを設定する。start_timeが存在する場合はそれを超えないようにする。
+                  schedule.deadline = DateTime.now + 3.days
+                  schedule.save
+                  schedule.update(status: 3)
+                  message = {
+                    type: 'text',
+                    text: "まだ日程は決まってないね！3日後までに決めちゃおう！代表者も勝手に決めちゃったよ！\n#{schedule.representative}さんよろしく！"
+                  }
+                  flex_message = {
+                    type: 'flex',
+                    altText: 'メッセージを送信しました',
+                    contents: read_flex_message(schedule)
+                  }
+                  client.reply_message(event['replyToken'], [message, flex_message])
+                end
               end
-              flex_message = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: choose_datetime
-              }
-              schedule.update(status: 2)
-              client.reply_message(event['replyToken'], [message, flex_message])
-            end
-          end
-          case event.message['text']
-          when '予定を削除'
-            schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-            if schedule
-              schedule.destroy
-              message = {
-                type: 'text',
-                text: '予定を削除しました！また予定立ててね！'
-              }
-              flex_message = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: join_message
-              }
-              client.reply_message(event['replyToken'], [message, flex_message])
-            end
-          when '予定を確定'
-            schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-            if schedule
-              message = {
-                type: 'text',
-                text: '予定決められて偉い！また予定立ちそうになったら呼んでね！'
-              }
-              flex_message_1 = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: read_flex_message_finalized(schedule)
-              }
-              flex_message_2 = {
-                type: 'flex',
-                altText: 'メッセージを送信しました',
-                contents: join_message
-              }
-              schedule.destroy
-              client.reply_message(event['replyToken'], [message, flex_message_1, flex_message_2])
+              if event.message['text'] == '予定を削除'
+                schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
+                if schedule
+                  schedule.destroy
+                  message = {
+                    type: 'text',
+                    text: '予定を削除しました！また予定立ててね！'
+                  }
+                  flex_message = {
+                    type: 'flex',
+                    altText: 'メッセージを送信しました',
+                    contents: join_message
+                  }
+                  client.reply_message(event['replyToken'], [message, flex_message])
+                end
+              end
+              if event.message['text'] ==  '予定を確定'
+                schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
+                if schedule
+                  message = {
+                    type: 'text',
+                    text: '予定決められて偉い！また予定立ちそうになったら呼んでね！'
+                  }
+                  flex_message_1 = {
+                    type: 'flex',
+                    altText: 'メッセージを送信しました',
+                    contents: read_flex_message_finalized(schedule)
+                  }
+                  flex_message_2 = {
+                    type: 'flex',
+                    altText: 'メッセージを送信しました',
+                    contents: join_message
+                  }
+                  schedule.destroy
+                  client.reply_message(event['replyToken'], [message, flex_message_1, flex_message_2])
+                end
+              end
             end
           end
         end
@@ -151,7 +149,6 @@ class LinebotController < ApplicationController
           }
           client.reply_message(event['replyToken'], message)
         end
-
         if event['postback']['data'] == 'choose_schedule_date'
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             if schedule && schedule.status == "created_status"
@@ -159,9 +156,8 @@ class LinebotController < ApplicationController
               start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
               schedule.start_time = start_time
               #代表者をランダムで選ぶ
-              group_id = event['source']['groupId']
-              users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
-              guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: group_id })
+              users = User.joins(:line_groups).where(line_groups: { line_group_id: event['source']['groupId'] })
+              guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: event['source']['groupId'] })
               all_users = users + guest_users
               representative = all_users.sample.name
               schedule.representative = representative
