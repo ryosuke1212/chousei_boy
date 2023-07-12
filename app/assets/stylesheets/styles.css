@@ -10976,4 +10976,20 @@ footer.footer .social-link:hover {
 
 .login-container {
   padding: 20px 0;
+  margin: 20px;
+}
+
+.terms-container {
+  margin: 0;
+  font-size: 12px;
+}
+
+.terms-container p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.terms-container li {
+  margin: 0;
+  font-size: 12px;
 }
