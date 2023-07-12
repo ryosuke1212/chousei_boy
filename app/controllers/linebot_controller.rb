@@ -127,7 +127,7 @@ class LinebotController < ApplicationController
             if schedule
               message = {
                 type: 'text',
-                text: '予定確定だね！また予定立ててね！'
+                text: '予定決められて偉い！また予定立ちそうになったら呼んでね！'
               }
               flex_message_1 = {
                 type: 'flex',
@@ -139,6 +139,7 @@ class LinebotController < ApplicationController
                 altText: 'メッセージを送信しました',
                 contents: join_message
               }
+              schedule.destroy
               client.reply_message(event['replyToken'], [message, flex_message_1, flex_message_2])
             end
           end
