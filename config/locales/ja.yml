@@ -1,5 +1,16 @@
 ja:
+  activerecord:
+    attributes:
+      schedule:
+        title: タイトル
+        start_time: 開始
+        end_time: 終了
+        description: 内容
+        location: 場所
+        representative: 代表
+        deadline: 期日
   time:
     formats:
       default: "%Y年%-m月%-d日 %H:%M"
       long: "%Y年%-m月%-d日（%A） %H:%M"
+      date_only: "%Y年%-m月%-d日"
