@@ -19,14 +19,18 @@ class LinebotController < ApplicationController
         }
         message_2 = {
           type: 'text',
-          text: '会う約束をしたけど「何するか決まらない」「日程が決まらない」なんてことありませんか？何が決まっていないか明確にしておきましょう！予定が立ったら次のボタンで予定を作成しましょう！'
+          text: "仲良い人同士だと予定の詳細決めをナマケてしまうなんてことありませんか？🦥"
+        }
+        message_3 = {
+          type: 'text',
+          text: "ナマケちゃいそうな予定が立ったら次のボタンで予定作成してみてね！✍️\n（※予定作成に時間がかかる場合がございます）"
         }
         flex_message = {
           type: 'flex',
           altText: 'メッセージを送信しました',
           contents: join_message
         }
-        client.reply_message(event['replyToken'], [message_1, message_2, flex_message])
+        client.reply_message(event['replyToken'], [message_1, message_2, message_3, flex_message])
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
@@ -64,7 +68,7 @@ class LinebotController < ApplicationController
                   schedule.save
                   message = {
                     type: 'text',
-                    text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                    text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
                   }
                 end
                 flex_message = {
@@ -82,7 +86,7 @@ class LinebotController < ApplicationController
                   schedule.update(status: 2)
                   message = {
                     type: 'text',
-                    text: "まだ日程は決まってないね！3日後までに決めちゃおう！代表者も勝手に決めちゃったよ！\n#{schedule.representative}さんよろしく！"
+                    text: "まだ日程は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
                   }
                   flex_message = {
                     type: 'flex',
@@ -205,11 +209,11 @@ class LinebotController < ApplicationController
   def create_action(event)
     groupId = event['source']['groupId']
     if schedule = Schedule.find_by(line_group_id: groupId)
-      @response = "まだ決まっていない予定があるからそっちから決めよう！"
+      @response = "まだ決まっていない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
       return
     else
       schedule = Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
-      @response = "何をするか決まってる？タイトルを教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
+      @response = "何をするか決まっていたら予定のタイトルをチャットで教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
     end
   end
 
