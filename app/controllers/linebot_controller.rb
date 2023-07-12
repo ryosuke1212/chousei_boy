@@ -76,7 +76,6 @@ class LinebotController < ApplicationController
                   altText: 'メッセージを送信しました',
                   contents: read_flex_message(schedule)
                 }
-                sleep 3
                 client.reply_message(event['replyToken'], [message, flex_message])
               end
             end
@@ -102,7 +101,6 @@ class LinebotController < ApplicationController
                 contents: choose_datetime
               }
               schedule.update(status: 2)
-              sleep 3
               client.reply_message(event['replyToken'], [message, flex_message])
             end
           end
@@ -190,7 +188,6 @@ class LinebotController < ApplicationController
                 altText: 'メッセージを送信しました',
                 contents: read_flex_message(schedule)
               }
-              sleep 3
               client.reply_message(event['replyToken'], [message, flex_message])
             end
           end
@@ -235,21 +232,21 @@ class LinebotController < ApplicationController
   end
 
   def create_action(event)
-    if event['source']['groupId']
-      groupId = event['source']['groupId']
-      if schedule = Schedule.find_by(line_group_id: groupId)
-        @response = "まだ決まっていない予定があるからそっちから決めよう！"
-        return
-      end
-      schedule = Schedule.create(line_group_id: groupId, status: 'title_status')
+    groupId = event['source']['groupId']
+    if schedule = Schedule.find_by(line_group_id: groupId)
+      @response = "まだ決まっていない予定があるからそっちから決めよう！"
+      return
+    else
+      schedule = Schedule.create(line_group_id: groupId, status: 'title_status', url_token: generate_unique_url_token)
+      @response = "何をするか決まってる？タイトルを教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
+      schedule.update(status: 1)
     end
+  end
 
-    if schedule
-      case schedule.status
-      when "title_status"
-        @response = "何をするか決まってる？タイトルを教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
-        schedule.update(status: 1)
-      end
+  def generate_unique_url_token
+    loop do
+      url_token = SecureRandom.hex(10)
+      return url_token unless Schedule.exists?(url_token: url_token)
     end
   end
 end
