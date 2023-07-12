@@ -52,7 +52,7 @@ class LinebotController < ApplicationController
               guest_user.update(guest_name: user_profile["displayName"])
             end
             if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-              if schedule.status == "datetime_status"
+              if schedule.status == "title"
                 if event.message['text'] == "未定"
                   message = {
                     type: 'text',
@@ -72,10 +72,10 @@ class LinebotController < ApplicationController
                   altText: 'メッセージを送信しました',
                   contents: choose_datetime
                 }
-                schedule.update(status: 2)
+                schedule.update(status: 1)
                 client.reply_message(event['replyToken'], [message, flex_message])
               end
-              if schedule.status == "created_status"
+              if schedule.status == "start_time"
                 if event.message['text'] == "未定"
                   #代表者をランダムで選ぶ
                   group_id = event['source']['groupId']
@@ -87,7 +87,7 @@ class LinebotController < ApplicationController
                   # deadlineを設定する。start_timeが存在する場合はそれを超えないようにする。
                   schedule.deadline = DateTime.now + 3.days
                   schedule.save
-                  schedule.update(status: 3)
+                  schedule.update(status: 2)
                   message = {
                     type: 'text',
                     text: "まだ日程は決まってないね！3日後までに決めちゃおう！代表者も勝手に決めちゃったよ！\n#{schedule.representative}さんよろしく！"
@@ -151,7 +151,7 @@ class LinebotController < ApplicationController
         end
         if event['postback']['data'] == 'choose_schedule_date'
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
-            if schedule && schedule.status == "created_status"
+            if schedule && schedule.status == "start_time"
               datetime_param = params["events"][0]["postback"]["params"]["datetime"]
               start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
               schedule.start_time = start_time
@@ -174,7 +174,7 @@ class LinebotController < ApplicationController
               end
               schedule.deadline = deadline
               schedule.save
-              schedule.update(status: 3)
+              schedule.update(status: 2)
               message = {
                 type: 'text',
                 text: message_text
@@ -233,9 +233,8 @@ class LinebotController < ApplicationController
       @response = "まだ決まっていない予定があるからそっちから決めよう！"
       return
     else
-      schedule = Schedule.create(line_group_id: groupId, status: 'title_status', url_token: generate_unique_url_token)
+      schedule = Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
       @response = "何をするか決まってる？タイトルを教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
-      schedule.update(status: 1)
     end
   end
 
