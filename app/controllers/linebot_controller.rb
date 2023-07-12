@@ -241,8 +241,6 @@ class LinebotController < ApplicationController
         return
       end
       schedule = Schedule.create(line_group_id: groupId, status: 'title_status')
-    elsif event['source']['userId']
-      schedule = Schedule.create(user_id: event['source']['userId'], status: :title_status)
     end
 
     if schedule
