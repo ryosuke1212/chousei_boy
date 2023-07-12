@@ -77,16 +77,8 @@ class LinebotController < ApplicationController
               end
               if schedule.status == "start_time"
                 if event.message['text'] == "未定"
-                  #代表者をランダムで選ぶ
-                  group_id = event['source']['groupId']
-                  users = User.joins(:line_groups).where(line_groups: { line_group_id: group_id })
-                  guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: group_id })
-                  all_users = users + guest_users
-                  representative = all_users.sample.name
-                  schedule.representative = representative
-                  # deadlineを設定する。start_timeが存在する場合はそれを超えないようにする。
-                  schedule.deadline = DateTime.now + 3.days
-                  schedule.save
+                  choose_representative(event, schedule)
+                  set_deadline_without_start_time(schedule)
                   schedule.update(status: 2)
                   message = {
                     type: 'text',
@@ -155,25 +147,8 @@ class LinebotController < ApplicationController
               datetime_param = params["events"][0]["postback"]["params"]["datetime"]
               start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
               schedule.start_time = start_time
-              #代表者をランダムで選ぶ
-              users = User.joins(:line_groups).where(line_groups: { line_group_id: event['source']['groupId'] })
-              guest_users = GuestUser.joins(:line_groups).where(line_groups: { line_group_id: event['source']['groupId'] })
-              all_users = users + guest_users
-              representative = all_users.sample.name
-              schedule.representative = representative
-              # deadlineを設定する。start_timeが存在する場合はそれを超えないようにする。
-              deadline = DateTime.now + 3.days
-              message_text = "【#{schedule.start_time.strftime("%-m月%-d日%-H時%-M分")}】だね！代表者と期日も勝手に決めておいたから早めに決めよう！\n#{schedule.representative}さんよろしく！"
-              if schedule.start_time && deadline > schedule.start_time
-                deadline = schedule.start_time - 1.days
-              end
-              # start_timeが今日の日付だった場合、messageを変更し、deadlineを今日の日付にする
-              if schedule.start_time.to_date == Date.today
-                message_text = "今日の予定！？代表者も決めておいたから早めに決めよう！\n#{schedule.representative}さんよろしく！"
-                deadline = DateTime.now
-              end
-              schedule.deadline = deadline
-              schedule.save
+              choose_representative(event, schedule)
+              message_text = set_deadline_with_start_time(event, schedule)
               schedule.update(status: 2)
               message = {
                 type: 'text',
