@@ -78,8 +78,7 @@ class LinebotController < ApplicationController
                 }
                 schedule.update(status: 1)
                 client.reply_message(event['replyToken'], [message, flex_message])
-              end
-              if schedule.status == "start_time"
+              elsif schedule.status == "start_time"
                 if event.message['text'] == "未定"
                   choose_representative(event, schedule)
                   set_deadline_without_start_time(schedule)
