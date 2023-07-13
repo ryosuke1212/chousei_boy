@@ -10,9 +10,9 @@
 <!-- アイコン設置画面-->
 <div class="masthead d-flex align-items-center">
   <div class="container px-4 px-lg-5 text-center">
-    <%= image_tag "namakemono.jpg", alt: "なまけもの", class: "namakemono-image", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
-    <h5>詳細決まってないけど</h5>
-    <h2>予定どうする？</h2>
+    <%= image_tag "namakemono2.jpg", alt: "なまけもの", class: "namakemono-image", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
+    <h5>そういえば</h5>
+    <h2>予定どうすんの？</h2>
     <a href="https://lin.ee/Hec9H2m"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
   </div>
 </div>
@@ -21,34 +21,34 @@
   <div class="container text-center">
     <div class="col-lg-10 mx-auto">
       <h5>友だちとの予定でこんな経験ない？</h5>
-      <p class="custom-p">「会おうよ！」と言ったものの詳細決めをナマケちゃう</p>
-      <p class="custom-p">予定決めの舵取りがいないためダラけちゃう</p>
-      <p class="custom-p">仲がいいほど人任せになってサボっちゃう</p>
-      <h6 class="mt-3">そんなときはこのアプリを使ってみては？</h6>
+      <%= image_tag "inu2.jpg", alt: "いぬ", class: "inu-image my-5", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
+      <p class="custom-p">会う約束だけしたけど予定決めをナマケちゃう</p>
+      <p class="custom-p">予定決めの舵取りがいないからダラけちゃう</p>
+      <p class="custom-p">仲が良いグループほど人任せになってサボっちゃう</p>
+      <div class="my-5">
+        <p>そうなる前に</p>
+        <p>事前に予定の代表者と期日を</p>
+        <p>決めてしまいましょう！</p>
+      </div>
     </div>
   </div>
 </div>
 <!-- 使い方 -->
 <div class="container usage-guide scroll-fade-in">
+  <div class="text-center">
+    <h5>使い方</h5>
+  </div>
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-12">
       <div class="timeline">
         <div class="timeline-event">
           <div class="timeline-event-icon">
             <i class="fas fa-circle"></i>
           </div>
-          <div class="timeline-event-label"><h5>まずはbotを友だち登録</h5></div>
+          <div class="timeline-event-label"><h5>まずはbotを友だち追加</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">友だち追加でbotと友だちになってね！</p>
-          </div>
-        </div>
-        <div class="timeline-event">
-          <div class="timeline-event-icon">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="timeline-event-label"><h5>ユーザー登録</h5></div>
-          <div class="timeline-event-content">
-            <p class="custom-p">botのリンクからユーザー登録してね！</p>
+            <p class="no-margin">botを友だち追加しよう。</p>
+            <p class="no-margin">その後リンクからログインしよう。</p>
           </div>
         </div>
         <div class="timeline-event">
@@ -57,7 +57,7 @@
           </div>
           <div class="timeline-event-label"><h5>botをグループトークに招待</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">予定を立てたいグループに招待してね！</p>
+            <p class="custom-p">予定決めをナマけちゃうグループに招待しよう。</p>
           </div>
         </div>
         <div class="timeline-event">
@@ -66,27 +66,38 @@
           </div>
           <div class="timeline-event-label"><h5>botを使って予定を立てよう</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">botが予定を立てるボタンを送ってくれるよ！</p>
-            <p class="custom-p">予定のタイトルと日程を教えてね</p>
-            <p class="custom-p">何も決まってなくても予定は立てられるよ</p>
+            <p class="no-margin">botが「予定を立てる」ボタンを送ってくれるよ！</p>
+            <p class="no-margin">botの質問に答えて予定を立てよう。</p>
+            <p class="no-margin">※以下、開発中のデザインです</p>
+            <div>
+              <%= image_tag "flexmessage2.jpg", alt: "フレックスメッセージ", class: "flexmessage2-image my-1", style: "width: 80%;" %>
+            </div>
+            <p class="no-margin">出来上がった予定をクリックすると編集できるよ。</p>
+            <p class="no-margin">期日までに予定を「確定」させよう。</p>
           </div>
         </div>
         <div class="timeline-event">
           <div class="timeline-event-icon">
             <i class="fas fa-circle"></i>
           </div>
-          <div class="timeline-event-label"><h5>メニューを利用しよう</h5></div>
+          <div class="timeline-event-label"><h5>リッチメニューを利用しよう</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">botとのトーク画面では所属ライングループの予定一覧を確認できるよ</p>
-            <p class="custom-p">自分だけの予定も立てられるからメニューから使ってみてね！</p>
+            <p class="custom-p">botとのトークでは所属グループトークの予定一覧を確認できるよ</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<footer class="footer"> <!-- ここを追加: サイトの一番下にCopyright XING INC.ALL Rights Reserved.の文言を表示 -->
-  <p>Copyright XING INC.ALL Rights Reserved.</p>
+<!-- 注意点 -->
+<div class="container caution-box scroll-fade-in">
+  <div class="text-center">
+    <p class="custom-p">※本アプリはベータ版です。一部機能はご利用になれません</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2023 調整ボーイ</p>
 </footer>
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>

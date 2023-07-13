@@ -10803,9 +10803,10 @@ footer.footer .social-link:hover {
 
 /* ここから */
 .custom-p {
-  margin: 0;
+  margin: 5;
   font-size: 12px;
 }
+
 .timeline {
   position: relative;
   padding: 30px 0;
@@ -10861,12 +10862,26 @@ footer.footer .social-link:hover {
   padding: 20px;
   margin-bottom: 50px;
   border-radius: 10px;
-  width: 90%;
+  width: 95%;
+  max-width: 400px;
   margin: 0 auto;
 }
 
 .usage-guide .fa-circle {
   color: #A9C683;
+}
+
+.usage-guide .no-margin {
+  margin: 0;
+  font-size: 12px;
+}
+
+.caution-box {
+  padding: 20px;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .scroll-fade-in {
