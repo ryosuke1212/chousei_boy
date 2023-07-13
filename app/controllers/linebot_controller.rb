@@ -55,6 +55,7 @@ class LinebotController < ApplicationController
                 guest_user.update(guest_name: user_profile["displayName"])
               end
               line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
+            end
             if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
               if schedule.status == "title"
                 if event.message['text'] == "未定"
@@ -133,7 +134,6 @@ class LinebotController < ApplicationController
                 end
               end
             end
-          end
         end
       when Line::Bot::Event::Postback
         if event['postback']['data'] == 'create_schedule_in_group'
@@ -166,7 +166,6 @@ class LinebotController < ApplicationController
             end
           end
         end
-
         if event['postback']['data'] == 'send_message_from_bot'
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             message = {
