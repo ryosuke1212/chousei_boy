@@ -34,27 +34,27 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          if event['source']['groupId']
-            line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
+          line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
             if user = User.find_by(uid: event['source']['userId'])
               line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
             else
-              # ゲストユーザーを作る
-              guest_user = GuestUser.find_or_create_by(guest_uid: event['source']['userId'])
-              line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
-              # ゲストユーザーの名前を取得し保存する
-              uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
-              request = Net::HTTP::Get.new(uri)
-              request["Authorization"] = "Bearer #{ENV["LINE_CHANNEL_TOKEN"]}"
-              req_options = {
-                use_ssl: uri.scheme == "https",
-              }
-              response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-                http.request(request)
+              guest_user = GuestUser.find_by(guest_uid: event['source']['userId'])
+              if guest_user.nil?
+                guest_user = GuestUser.create(guest_uid: event['source']['userId'])
+                # ゲストユーザーの名前を取得し保存する
+                uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
+                request = Net::HTTP::Get.new(uri)
+                request["Authorization"] = "Bearer #{ENV["LINE_CHANNEL_TOKEN"]}"
+                req_options = {
+                  use_ssl: uri.scheme == "https",
+                }
+                response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+                  http.request(request)
+                end
+                user_profile = JSON.parse(response.body)
+                guest_user.update(guest_name: user_profile["displayName"])
               end
-              user_profile = JSON.parse(response.body)
-              guest_user.update(guest_name: user_profile["displayName"])
-            end
+              line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
             if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
               if schedule.status == "title"
                 if event.message['text'] == "未定"
