@@ -23,7 +23,7 @@ class LinebotController < ApplicationController
         }
         message_3 = {
           type: 'text',
-          text: "ナマケちゃいそうな予定が立ったら次のボタンで予定作成してみてね！✍️\n（※予定作成に時間がかかる場合がございます）"
+          text: "ナマケちゃいそうな予定が立ったら決まってることだけ見える化しましょう！！✍️\n（※予定作成に時間がかかる場合がございます）"
         }
         flex_message = {
           type: 'flex',
@@ -34,33 +34,34 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          if event['source']['groupId']
-            line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
+          line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
             if user = User.find_by(uid: event['source']['userId'])
               line_group_user = LineGroupsUser.find_or_create_by(line_group: line_group, user: user)
             else
-              # ゲストユーザーを作る
-              guest_user = GuestUser.find_or_create_by(guest_uid: event['source']['userId'])
-              line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
-              # ゲストユーザーの名前を取得し保存する
-              uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
-              request = Net::HTTP::Get.new(uri)
-              request["Authorization"] = "Bearer #{ENV["LINE_CHANNEL_TOKEN"]}"
-              req_options = {
-                use_ssl: uri.scheme == "https",
-              }
-              response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-                http.request(request)
+              guest_user = GuestUser.find_by(guest_uid: event['source']['userId'])
+              if guest_user.nil?
+                guest_user = GuestUser.create(guest_uid: event['source']['userId'])
+                # ゲストユーザーの名前を取得し保存する
+                uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
+                request = Net::HTTP::Get.new(uri)
+                request["Authorization"] = "Bearer #{ENV["LINE_CHANNEL_TOKEN"]}"
+                req_options = {
+                  use_ssl: uri.scheme == "https",
+                }
+                response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+                  http.request(request)
+                end
+                user_profile = JSON.parse(response.body)
+                guest_user.update(guest_name: user_profile["displayName"])
               end
-              user_profile = JSON.parse(response.body)
-              guest_user.update(guest_name: user_profile["displayName"])
+              line_group_guest_user = LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id, guest_user_id: guest_user.id)
             end
             if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
               if schedule.status == "title"
                 if event.message['text'] == "未定"
                   message = {
                     type: 'text',
-                    text: "まだ決まってないね！これから決めていこう！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                    text: "まだ決まってないね！これから決めていこう！\n日時を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
                   }
                   schedule.title = "何するかはこれから決めよう"
                 else
@@ -68,7 +69,7 @@ class LinebotController < ApplicationController
                   schedule.save
                   message = {
                     type: 'text',
-                    text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
+                    text: "【#{event.message['text']}】だね！\n日時を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
                   }
                 end
                 flex_message = {
@@ -78,15 +79,14 @@ class LinebotController < ApplicationController
                 }
                 schedule.update(status: 1)
                 client.reply_message(event['replyToken'], [message, flex_message])
-              end
-              if schedule.status == "start_time"
+              elsif schedule.status == "start_time"
                 if event.message['text'] == "未定"
                   choose_representative(event, schedule)
                   set_deadline_without_start_time(schedule)
                   schedule.update(status: 2)
                   message = {
                     type: 'text',
-                    text: "まだ日程は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
+                    text: "まだ日時は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
                   }
                   flex_message = {
                     type: 'flex',
@@ -134,7 +134,6 @@ class LinebotController < ApplicationController
                 end
               end
             end
-          end
         end
       when Line::Bot::Event::Postback
         if event['postback']['data'] == 'create_schedule_in_group'
@@ -167,7 +166,6 @@ class LinebotController < ApplicationController
             end
           end
         end
-
         if event['postback']['data'] == 'send_message_from_bot'
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             message = {
@@ -209,7 +207,7 @@ class LinebotController < ApplicationController
   def create_action(event)
     groupId = event['source']['groupId']
     if schedule = Schedule.find_by(line_group_id: groupId)
-      @response = "まだ決まっていない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
+      @response = "まだ決め切ってない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
       return
     else
       schedule = Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
