@@ -10,30 +10,80 @@
 <!-- アイコン設置画面-->
 <div class="masthead d-flex align-items-center">
   <div class="container px-4 px-lg-5 text-center">
-    <%= image_tag "namakemono2.jpg", alt: "なまけもの", class: "namakemono-image", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
-    <h5>そういえば</h5>
-    <h2>予定どうすんの？</h2>
-    <a href="https://lin.ee/Hec9H2m"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <%= image_tag "namakemono2.jpg", alt: "なまけもの", class: "namakemono-image", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
+        <h2>調整ボーイ</h2>
+        <h6>〜予定を決めきれないグループに〜</h6>
+        <div style="margin-bottom: 20px;">
+          <a href="https://lin.ee/Hec9H2m"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="angle-down-container">
+          <i class="fas fa-angle-down" style="font-size: 500%; color: rgba(0, 0, 0, 0.3);"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 <!-- こんな経験ない？ -->
-<div class="content-section scroll-fade-in">
-  <div class="container text-center">
+<div class="content-section masthead scroll-fade-in py-2">
+  <div class="container text-center" style="width: 95%; max-width: 400px;">
     <div class="col-lg-10 mx-auto">
-      <h5>友だちとの予定でこんな経験ない？</h5>
-      <%= image_tag "inu2.jpg", alt: "いぬ", class: "inu-image my-5", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
-      <p class="custom-p">会う約束だけしたけど予定決めをナマケちゃう</p>
-      <p class="custom-p">予定決めの舵取りがいないからダラけちゃう</p>
-      <p class="custom-p">仲が良いグループほど人任せになってサボっちゃう</p>
-      <div class="my-5">
-        <p>そうなる前に</p>
-        <p>事前に予定の代表者と期日を</p>
-        <p>決めてしまいましょう！</p>
+      <h5 class="my-5">友だちとの予定でこんな経験ない？</h5>
+      <div class="balloon-container m-0" style="align-items: flex-end;">
+        <div class="balloon1-right m-0">
+          <p>日曜日どっか行こうよ</p>
+        </div>
+      </div>
+      <div class="balloon-container">
+        <div class="balloon1-left">
+          <p>いいね！</p>
+        </div>
+      </div>
+      <div class="balloon-container m-0" style="align-items: flex-end;">
+        <div class="balloon1-right m-0">
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+        </div>
+      </div>
+      <div class="balloon-container">
+        <div class="balloon1-left">
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+          <i class="fas fa-circle" style="font-size: 9px"></i>
+        </div>
+      </div>
+      <div class="balloon4">
+        <p>いつもぎりぎりまで</p>
+        <p>何するかきまらんなぁ</p>
+      </div>  
+      <%= image_tag "inu2.jpg", alt: "いぬ", class: "inu-image my-4 mt-0", style: "width: 133px; height: 100px;" %>
+      <p class="no-margin">会う約束だけしたけど予定決めをナマケちゃう</p>
+      <p class="no-margin">予定決めの舵取りがいないからダラけちゃう</p>
+      <p class="no-margin">仲が良いグループほど人任せになってサボっちゃう</p>
+      <div class="mt-3 mb-5">
+        <p class="m-0">そんなダラダラ予定には</p>
+        <p class="m-0">代表者といつまでに決めるかを</p>
+        <p class="m-0">botに決めてもらいましょう！</p>
+      </div>
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-12">
+          <div class="angle-down-container2 fa-angle-down2">
+            <i class="fas fa-angle-down" style="font-size: 500%; color: rgba(0, 0, 0, 0.3);"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <!-- 使い方 -->
+<div class="usage-guide-container pt-2">
 <div class="container usage-guide scroll-fade-in">
   <div class="text-center">
     <h5>使い方</h5>
@@ -48,7 +98,7 @@
           <div class="timeline-event-label"><h5>まずはbotを友だち追加</h5></div>
           <div class="timeline-event-content">
             <p class="no-margin">botを友だち追加しよう。</p>
-            <p class="no-margin">その後リンクからログインしよう。</p>
+            <p class="no-margin">そのあとリンクからログインしてね。</p>
           </div>
         </div>
         <div class="timeline-event">
@@ -57,23 +107,25 @@
           </div>
           <div class="timeline-event-label"><h5>botをグループトークに招待</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">予定決めをナマけちゃうグループに招待しよう。</p>
+            <p class="no-margin">予定決めをナマけちゃいがちなグループに招待しよう。</p>
+            <p class="no-margin">複数のグループに招待できるよ。</p>
           </div>
         </div>
         <div class="timeline-event">
           <div class="timeline-event-icon">
             <i class="fas fa-circle"></i>
           </div>
-          <div class="timeline-event-label"><h5>botを使って予定を立てよう</h5></div>
+          <div class="timeline-event-label"><h5>予定を見える化しよう</h5></div>
           <div class="timeline-event-content">
             <p class="no-margin">botが「予定を立てる」ボタンを送ってくれるよ！</p>
-            <p class="no-margin">botの質問に答えて予定を立てよう。</p>
+            <p class="no-margin">予定がどこまで決まっているのかbotに伝えてね。</p>
+            <p class="no-margin">botが代表者と期日を勝手に決めてメッセージに書き起こすよ。</p>
             <p class="no-margin">※以下、開発中のデザインです</p>
             <div>
-              <%= image_tag "flexmessage2.jpg", alt: "フレックスメッセージ", class: "flexmessage2-image my-1", style: "width: 80%;" %>
+              <%= image_tag "flexmessage2.jpg", alt: "フレックスメッセージ", class: "flexmessage2-image my-3", style: "width: 80%;" %>
             </div>
-            <p class="no-margin">出来上がった予定をクリックすると編集できるよ。</p>
-            <p class="no-margin">期日までに予定を「確定」させよう。</p>
+            <p class="no-margin">メッセージをクリックすると予定の編集ができるよ。期日までに予定を決め切って「確定」させよう！</p>
+            <p class="no-margin">期日までに予定が「確定」してない場合通知を届けるね！</p>
           </div>
         </div>
         <div class="timeline-event">
@@ -82,12 +134,14 @@
           </div>
           <div class="timeline-event-label"><h5>リッチメニューを利用しよう</h5></div>
           <div class="timeline-event-content">
-            <p class="custom-p">botとのトークでは所属グループトークの予定一覧を確認できるよ</p>
+            <p class="custom-p">公式アカウントの「リッチメニュー」から決まってない予定一覧を確認できるよ。</p>
+            <p class="no-margin">※確定された予定、削除された予定は一覧から消えます。</p>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 <!-- 注意点 -->
 <div class="container caution-box scroll-fade-in">

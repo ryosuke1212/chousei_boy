@@ -10807,6 +10807,145 @@ footer.footer .social-link:hover {
   font-size: 12px;
 }
 
+.angle-down-container {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes swing {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(10px); }
+  100% { transform: translateY(0px); }
+}
+
+.swing {
+  animation: swing 1s infinite;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #000;
+  margin: auto;
+}
+
+.balloon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  width: 95%;
+  max-width: 350px;
+}
+
+.balloon1-left {
+  position: relative;
+  display: inline-block;
+  left: 10px;
+  margin: 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #e0edff;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.balloon1-left:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  margin-top: -15px;
+  border: 15px solid transparent;
+  border-right: 20px solid #e0edff;
+}
+
+.balloon1-left p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.balloon1-right {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #A9C683;
+  border-radius: 10px;
+  width: fit-content;
+  align-items: flex-end;
+}
+
+.balloon1-right:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 7px);
+  margin-top: -15px;
+  border: 15px solid transparent;
+  border-left: 20px solid #A9C683;
+}
+
+.balloon1-right p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.balloon4 {
+  position: relative;
+  margin: 2em 0 2em 40px;
+  padding: 5px;
+  background: #A9C683;
+  border-radius: 30px;
+  width: 250px;
+}
+
+.balloon4:before {
+  content: "";
+  position: absolute;
+  left: 200px;
+  width: 13px;
+  height: 12px;
+  bottom: -60px;
+  background: #A9C683;
+  border-radius: 50%;
+}
+
+.balloon4:after {
+  content: "";
+  position: absolute;
+  left: 200px;
+  width: 20px;
+  height: 18px;
+  bottom: -30px;
+  background: #A9C683;
+  border-radius: 50%;
+}
+
+.balloon4 p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.content-section .no-margin {
+  margin: 0;
+  font-size: 12px;
+}
+
 .timeline {
   position: relative;
   padding: 30px 0;

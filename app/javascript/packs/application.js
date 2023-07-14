@@ -100,3 +100,33 @@ window.addEventListener('scroll', function() {
     }
     });
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const element = document.querySelector('.fa-angle-down');
+    element.classList.add('swing');
+
+    const element2 = document.querySelector('.fa-angle-down2');
+    if (element2) {
+        element2.classList.add('swing');
+    }
+});
+
+window.onload = function() {
+    const scrollIcon = document.querySelector('.fa-angle-down');
+    const targetSection = document.querySelector('.content-section');
+
+    scrollIcon.addEventListener('click', function(event) {
+        event.preventDefault();
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    const scrollIcon2 = document.querySelector('.fa-angle-down2');
+    const targetSection2 = document.querySelector('.usage-guide-container');
+
+    if (scrollIcon2 && targetSection2) {
+        scrollIcon2.addEventListener('click', function(event) {
+            event.preventDefault();
+            targetSection2.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+};
