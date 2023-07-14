@@ -23,7 +23,7 @@ class LinebotController < ApplicationController
         }
         message_3 = {
           type: 'text',
-          text: "ナマケちゃいそうな予定が立ったら次のボタンで予定作成してみてね！✍️\n（※予定作成に時間がかかる場合がございます）"
+          text: "ナマケちゃいそうな予定が立ったら決まってることだけ見える化しましょう！！✍️\n（※予定作成に時間がかかる場合がございます）"
         }
         flex_message = {
           type: 'flex',
@@ -61,7 +61,7 @@ class LinebotController < ApplicationController
                 if event.message['text'] == "未定"
                   message = {
                     type: 'text',
-                    text: "まだ決まってないね！これから決めていこう！\n日程を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                    text: "まだ決まってないね！これから決めていこう！\n日時を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
                   }
                   schedule.title = "何するかはこれから決めよう"
                 else
@@ -69,7 +69,7 @@ class LinebotController < ApplicationController
                   schedule.save
                   message = {
                     type: 'text',
-                    text: "【#{event.message['text']}】だね！\n日程を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
+                    text: "【#{event.message['text']}】だね！\n日時を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
                   }
                 end
                 flex_message = {
@@ -86,7 +86,7 @@ class LinebotController < ApplicationController
                   schedule.update(status: 2)
                   message = {
                     type: 'text',
-                    text: "まだ日程は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
+                    text: "まだ日時は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
                   }
                   flex_message = {
                     type: 'flex',
@@ -207,7 +207,7 @@ class LinebotController < ApplicationController
   def create_action(event)
     groupId = event['source']['groupId']
     if schedule = Schedule.find_by(line_group_id: groupId)
-      @response = "まだ決まっていない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
+      @response = "まだ決め切ってない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
       return
     else
       schedule = Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
