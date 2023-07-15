@@ -11,7 +11,7 @@
         "height": "sm",
         "action": {
           "type": "datetimepicker",
-          "label": "日程を決める",
+          "label": "いつにするか決まってる？",
           "mode": "datetime",
           "data": "choose_schedule_date"
         }
