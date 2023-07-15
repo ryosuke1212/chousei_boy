@@ -61,7 +61,7 @@ class LinebotController < ApplicationController
                 if event.message['text'] == "未定"
                   message = {
                     type: 'text',
-                    text: "まだ決まってないね！これから決めていこう！\n日時を次のボタンで教えてね！決まってなかったら「未定」とチャットで教えてね！"
+                    text: "予定なんてそんなもんよね！これから決めてこ！\n流石にいつの予定かは決めてるよね？決まってなければ「未定」でも良いよ！"
                   }
                   schedule.title = "何するかはこれから決めよう"
                 else
@@ -69,7 +69,7 @@ class LinebotController < ApplicationController
                   schedule.save
                   message = {
                     type: 'text',
-                    text: "【#{event.message['text']}】だね！\n日時を次のボタンで教えてね🕐\n決まってなかったら「未定」とチャットで教えてね！"
+                    text: "【#{event.message['text']}】だね！\nいつの予定かは決めてる？🕐\n決まってなかったら「未定」とチャットで教えてね！"
                   }
                 end
                 flex_message = {
@@ -86,7 +86,7 @@ class LinebotController < ApplicationController
                   schedule.update(status: 2)
                   message = {
                     type: 'text',
-                    text: "まだ日時は決まってないね！3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
+                    text: "まだ日程は決まってないね！サクッと3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
                   }
                   flex_message = {
                     type: 'flex',
@@ -147,8 +147,8 @@ class LinebotController < ApplicationController
         if event['postback']['data'] == 'choose_schedule_date'
           if schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
             if schedule && schedule.status == "start_time"
-              datetime_param = params["events"][0]["postback"]["params"]["datetime"]
-              start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d %H:%M:%S")
+              datetime_param = params["events"][0]["postback"]["params"]["date"]
+              start_time = DateTime.parse(datetime_param).strftime("%Y-%m-%d")
               schedule.start_time = start_time
               choose_representative(event, schedule)
               message_text = set_deadline_with_start_time(event, schedule)
@@ -211,7 +211,7 @@ class LinebotController < ApplicationController
       return
     else
       schedule = Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
-      @response = "何をするか決まっていたら予定のタイトルをチャットで教えてね！（例. 遊び・旅行・飲み会など）\n決まってなければ「未定」と入力してね！"
+      @response = "何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
     end
   end
 

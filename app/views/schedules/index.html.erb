@@ -8,7 +8,7 @@
       <% if @schedules.present? %>
         <div class="text-center" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
           <%= image_tag "cheering_woman_color.png", alt: "cheering_woman_color", style: "width: 30px; height: 33px;"%>
-          <p class="mb-0">決まってない予定が<span style="font-size: 24px;"><%= @schedules.count %></span>つあるみたい！</p>
+          <p class="mb-0"><span style="font-size: 24px;"><%= @schedules.count %></span>つあるよ！そろそろ決めよ！</p>
         </div>
         <% @schedules.each do |schedule| %>
           <div class="col-lg-4 col-md-6">
