@@ -1,9 +1,13 @@
 class SchedulesController < ApplicationController
   def index
-    user_schedules = Schedule.where(user_id: current_user.uid)
-    line_group_ids = current_user.line_groups.pluck(:line_group_id)
-    group_schedules = Schedule.where(line_group_id: line_group_ids)
-    @schedules = user_schedules.or(group_schedules)
+    if current_user
+      user_schedules = Schedule.where(user_id: current_user.uid)
+      line_group_ids = current_user.line_groups.pluck(:line_group_id)
+      group_schedules = Schedule.where(line_group_id: line_group_ids)
+      @schedules = user_schedules.or(group_schedules)
+    else
+      redirect_to login_path, alert: "まずはログインからお願いします。"
+    end
   end
 
   def create
