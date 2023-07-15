@@ -1,27 +1,39 @@
+<%= render 'shared/navbar' %>
 <div class="schedules">
   <div class="container mt-1">
     <div class="section-header text-center">
       <h4>決まってない予定一覧</h4>
     </div>
-    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-      <% @schedules.each do |schedule| %>
-        <div class="col-lg-4 col-md-6">
-          <div class="schedule-item" style="padding: 5px">
-            <div class="container">
-              <h5 style="margin-bottom: 0;"><%= schedule.title %></h5>
-              <p><%= Schedule.human_attribute_name(:start_time) %>: <%= l(schedule.start_time, format: :default, locale: :ja) if schedule.start_time %></p>
-              <p><%= Schedule.human_attribute_name(:end_time) %>: <%= l(schedule.end_time, format: :default, locale: :ja) if schedule.end_time %></p>
-              <p><%= Schedule.human_attribute_name(:description) %>: <%= schedule.description %></p>
-              <p><%= Schedule.human_attribute_name(:location) %>: <%= schedule.location %></p>
-              <p><%= Schedule.human_attribute_name(:representative) %>: <%= schedule.representative %></p>
-              <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :date_only, locale: :ja) if schedule.deadline %></p>
-            </div>
-            <div class="button-container text-end">
-              <%= link_to edit_schedule_path(schedule), class: 'card-link edit-link' do %>
-                <i class="fas fa-edit fa-1x"></i>
-              <% end %>
+    <div class="row gy-4 justify-content-center" data-aos="fade-up" data-aos-delay="100">
+      <% if @schedules.present? %>
+        <div class="text-center" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+          <%= image_tag "cheering_woman_color.png", alt: "cheering_woman_color", style: "width: 30px; height: 33px;"%>
+          <p class="mb-0">決まってない予定が<span style="font-size: 24px;"><%= @schedules.count %></span>つあるみたい！</p>
+        </div>
+        <% @schedules.each do |schedule| %>
+          <div class="col-lg-4 col-md-6">
+            <div class="schedule-item" style="padding: 5px">
+              <div class="container">
+                <h5 style="margin-bottom: 0;"><%= schedule.title %></h5>
+                <p><%= Schedule.human_attribute_name(:start_time) %>: <%= l(schedule.start_time, format: :default, locale: :ja) if schedule.start_time %></p>
+                <p><%= Schedule.human_attribute_name(:end_time) %>: <%= l(schedule.end_time, format: :default, locale: :ja) if schedule.end_time %></p>
+                <p><%= Schedule.human_attribute_name(:description) %>: <%= schedule.description %></p>
+                <p><%= Schedule.human_attribute_name(:location) %>: <%= schedule.location %></p>
+                <p><%= Schedule.human_attribute_name(:representative) %>: <%= schedule.representative %></p>
+                <p><%= Schedule.human_attribute_name(:deadline) %>: <%= l(schedule.deadline, format: :date_only, locale: :ja) if schedule.deadline %></p>
+              </div>
+              <div class="button-container text-end">
+                <%= link_to edit_schedule_path(schedule), class: 'card-link edit-link' do %>
+                  <i class="fas fa-edit fa-1x"></i>
+                <% end %>
+              </div>
             </div>
           </div>
+        <% end %>
+      <% else %>
+        <div class="text-center">
+          <p style="margin-top: 40px;">まだ予定がないよ！</p>
+          <p>使い方はTOPページを確認してね</p>
         </div>
       <% end %>
     </div>
