@@ -1,0 +1,12 @@
+<a class="menu-toggle rounded-circle" href="javascript:void(0)"><i class="fas fa-bars"></i></a>
+<nav id="sidebar-wrapper">
+  <ul class="sidebar-nav">
+    <li class="sidebar-brand"><%= link_to 'そろそろ決め代', root_path %></li>
+    <% if user_signed_in? %>
+      <li class="sidebar-nav-item"><a href="/schedules">決まってない予定一覧</a></li>
+    <% end %>
+    <li class="sidebar-nav-item"><a href="/terms">利用規約</a></li>
+    <li class="sidebar-nav-item"><a href="/privacy_policy">プライバシーポリシー</a></li>
+    <li class="sidebar-nav-item"><a href="https://docs.google.com/forms/d/1mZP8B0uUymi7vwN57_iSZIqyxShZ15PSmz-sSn5lAA8/edit">お問い合わせ</a></li>
+  </ul>
+</nav>
