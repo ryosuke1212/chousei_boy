@@ -6,7 +6,7 @@ class SchedulesController < ApplicationController
       group_schedules = Schedule.where(line_group_id: line_group_ids)
       @schedules = user_schedules.or(group_schedules)
     else
-      redirect_to login_path, alert: "まずはログインからお願いします。"
+      redirect_to new_user_session_path, alert: "まずはログインからお願いします。"
     end
   end
 
