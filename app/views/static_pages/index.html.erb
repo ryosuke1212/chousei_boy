@@ -1,20 +1,11 @@
-<a class="menu-toggle rounded-circle" href="javascript:void(0)"><i class="fas fa-bars"></i></a>
-<nav id="sidebar-wrapper">
-  <ul class="sidebar-nav">
-    <li class="sidebar-brand">調整ボーイ</li>
-    <li class="sidebar-nav-item"><a href="/terms">利用規約</a></li>
-    <li class="sidebar-nav-item"><a href="/privacy_policy">プライバシーポリシー</a></li>
-    <li class="sidebar-nav-item"><a href="https://docs.google.com/forms/d/1mZP8B0uUymi7vwN57_iSZIqyxShZ15PSmz-sSn5lAA8/edit">お問い合わせ</a></li>
-  </ul>
-</nav>
+<%= render 'shared/navbar' %>
 <!-- アイコン設置画面-->
 <div class="masthead d-flex align-items-center">
   <div class="container px-4 px-lg-5 text-center">
     <div class="row justify-content-center">
-      <div class="col-lg-12">
-        <%= image_tag "namakemono2.jpg", alt: "なまけもの", class: "namakemono-image", style: "width: 133px; height: 100px; margin-bottom: 20px;" %>
-        <h2>調整ボーイ</h2>
-        <h6>〜予定を決めきれないグループに〜</h6>
+      <div class="col-lg-6">
+        <%= image_tag "cheering_woman_color.png", alt: "cheering_woman_color", style: "width: 128px; hegit: 128px; margin-bottom: 20px;"%>
+        <h5>そろそろ決め代</h5>
         <div style="margin-bottom: 20px;">
           <a href="https://lin.ee/Hec9H2m"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
         </div>
@@ -61,16 +52,13 @@
       </div>
       <div class="balloon4">
         <p>いつもぎりぎりまで</p>
-        <p>何するかきまらんなぁ</p>
+        <p>何するか決まらないなぁ</p>
       </div>  
-      <%= image_tag "inu2.jpg", alt: "いぬ", class: "inu-image my-4 mt-0", style: "width: 133px; height: 100px;" %>
-      <p class="no-margin">会う約束だけしたけど予定決めをナマケちゃう</p>
-      <p class="no-margin">予定決めの舵取りがいないからダラけちゃう</p>
-      <p class="no-margin">仲が良いグループほど人任せになってサボっちゃう</p>
+      <%= image_tag "trouble_man_color-1.png", alt: "trouble_man_color-1.png", class: "my-4 mt-0", style: "width: 100px; height: 130px;" %>
       <div class="mt-3 mb-5">
-        <p class="m-0">そんなダラダラ予定には</p>
+        <p class="m-0">そんなダラダラ予定...</p>
         <p class="m-0">代表者といつまでに決めるかを</p>
-        <p class="m-0">botに決めてもらいましょう！</p>
+        <p class="m-0">決め代に決めてもらいましょう！</p>
       </div>
       <div class="row justify-content-center mb-5">
         <div class="col-lg-12">
@@ -83,66 +71,7 @@
   </div>
 </div>
 <!-- 使い方 -->
-<div class="usage-guide-container pt-2">
-<div class="container usage-guide scroll-fade-in">
-  <div class="text-center">
-    <h5>使い方</h5>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="timeline">
-        <div class="timeline-event">
-          <div class="timeline-event-icon">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="timeline-event-label"><h5>まずはbotを友だち追加</h5></div>
-          <div class="timeline-event-content">
-            <p class="no-margin">botを友だち追加しよう。</p>
-            <p class="no-margin">そのあとリンクからログインしてね。</p>
-          </div>
-        </div>
-        <div class="timeline-event">
-          <div class="timeline-event-icon">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="timeline-event-label"><h5>botをグループトークに招待</h5></div>
-          <div class="timeline-event-content">
-            <p class="no-margin">予定決めをナマけちゃいがちなグループに招待しよう。</p>
-            <p class="no-margin">複数のグループに招待できるよ。</p>
-          </div>
-        </div>
-        <div class="timeline-event">
-          <div class="timeline-event-icon">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="timeline-event-label"><h5>予定を見える化しよう</h5></div>
-          <div class="timeline-event-content">
-            <p class="no-margin">botが「予定を立てる」ボタンを送ってくれるよ！</p>
-            <p class="no-margin">予定がどこまで決まっているのかbotに伝えてね。</p>
-            <p class="no-margin">botが代表者と期日を勝手に決めてメッセージに書き起こすよ。</p>
-            <p class="no-margin">※以下、開発中のデザインです</p>
-            <div>
-              <%= image_tag "flexmessage2.jpg", alt: "フレックスメッセージ", class: "flexmessage2-image my-3", style: "width: 80%;" %>
-            </div>
-            <p class="no-margin">メッセージをクリックすると予定の編集ができるよ。期日までに予定を決め切って「確定」させよう！</p>
-            <p class="no-margin">期日までに予定が「確定」してない場合通知を届けるね！</p>
-          </div>
-        </div>
-        <div class="timeline-event">
-          <div class="timeline-event-icon">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="timeline-event-label"><h5>リッチメニューを利用しよう</h5></div>
-          <div class="timeline-event-content">
-            <p class="custom-p">公式アカウントの「リッチメニュー」から決まってない予定一覧を確認できるよ。</p>
-            <p class="no-margin">※確定された予定、削除された予定は一覧から消えます。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+  <%= render 'shared/usage_guide' %>
 <!-- 注意点 -->
 <div class="container caution-box scroll-fade-in">
   <div class="text-center">
@@ -151,7 +80,7 @@
 </div>
 
 <footer class="footer">
-  <p>© 2023 調整ボーイ</p>
+  <p>© 2023 そろそろきめ代</p>
 </footer>
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>

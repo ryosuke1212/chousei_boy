@@ -11,7 +11,7 @@ namespace :schedule_remind do
     Schedule.where("deadline >= ? AND deadline < ?", Date.today, Date.today + 1.day).each do |schedule|
       message = {
           type: 'text',
-          text: "「#{schedule.title}」を皆で決めよう！今日が期限だよ！"
+          text: "今日期限の予定があるよ！そろそろ決めよ！"
         }
       flex_message = {
           type: 'flex',

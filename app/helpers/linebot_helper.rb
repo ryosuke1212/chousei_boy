@@ -9,7 +9,7 @@ module LinebotHelper
     message["body"]["contents"][2]["text"] = schedule.location.present? ? schedule.location : "場所：-"
     message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = schedule.description.present? ? schedule.description : "-"
     message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = schedule.deadline.present? ? schedule.deadline.strftime("%-m月%-d日") : "-"
-    message["action"]["uri"] = "https://chousei-boy-9f11f6556474.herokuapp.com/schedules/#{schedule.url_token}"
+    message["action"]["uri"] = "https://sorosorokimeyo-b9a94739722d.herokuapp.com/schedules/#{schedule.url_token}"
 
     message
   end
@@ -24,7 +24,7 @@ module LinebotHelper
     message["body"]["contents"][2]["text"] = schedule.location.present? ? schedule.location : "場所：-"
     message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = schedule.description.present? ? schedule.description : "-"
     message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = schedule.deadline.present? ? schedule.deadline.strftime("%-m月%-d日") : "-"
-    message["action"]["uri"] = "https://chousei-boy-9f11f6556474.herokuapp.com/schedules/#{schedule.url_token}"
+    message["action"]["uri"] = "https://sorosorokimeyo-b9a94739722d.herokuapp.com/schedules/#{schedule.url_token}"
     # "●いつまでに決める？"部分を削除
     message["body"]["contents"][3]["contents"].delete_at(1)
     # "footer"部分を削除

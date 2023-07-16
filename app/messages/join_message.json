@@ -11,7 +11,7 @@
         "height": "sm",
         "action": {
           "type": "postback",
-          "label": "予定を立てる",
+          "label": "予定を見える化",
           "data": "create_schedule_in_group"
         }
       },
@@ -22,7 +22,7 @@
         "action": {
           "type": "uri",
           "label": "使い方を見る",
-          "uri": "https://chousei-boy-9f11f6556474.herokuapp.com/"
+          "uri": "https://sorosorokimeyo-b9a94739722d.herokuapp.com/"
         }
       },
       {
