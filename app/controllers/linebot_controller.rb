@@ -23,7 +23,7 @@ class LinebotController < ApplicationController
         }
         message_3 = {
           type: 'text',
-          text: "ナマケちゃいそうな予定が立ったら決まってることだけ見える化しておこう！！\n（※予定作成に時間がかかる場合があります）"
+          text: "なまけちゃいそうな予定が立ったら決まってることだけ見える化しておこう！！\n（※返信に時間がかかる場合があります）"
         }
         flex_message = {
           type: 'flex',

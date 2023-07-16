@@ -11,7 +11,7 @@
         "height": "sm",
         "action": {
           "type": "postback",
-          "label": "予定を立てる",
+          "label": "予定を見える化",
           "data": "create_schedule_in_group"
         }
       },
