@@ -79,3 +79,8 @@ Style/FrozenStringLiteralComment:
 # メソッドパラメータ名の最小文字数を設定
 Naming/MethodParameterName:
  MinNameLength: 1
+
+Layout/FirstHashElementIndentation:
+  Enabled: true
+  Exclude:
+    - "lib/tasks/schedule_remind.rake"
