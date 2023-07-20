@@ -11,8 +11,15 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = Schedule.new(title: '未登録', start_time: '未登録', end_time: '未登録', representative: '未登録', location: '未登録',
-                              description: '未登録', deadline: '未登録')
+    @schedule = Schedule.new(
+      title: '未登録',
+      start_time: '未登録',
+      end_time: '未登録',
+      representative: '未登録',
+      location: '未登録',
+      description: '未登録',
+      deadline: '未登録'
+    )
     @schedule.save
     redirect_to schedules_path, notice: '予定を登録しました'
   end
