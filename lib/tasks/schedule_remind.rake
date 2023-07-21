@@ -1,9 +1,9 @@
 require_relative '../../app/helpers/linebot_helper'
-include LinebotHelper
 
 namespace :schedule_remind do
   desc '予定のリマインド通知を送る'
   task remind: :environment do
+    include LinebotHelper
     client ||= Line::Bot::Client.new do |config|
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
       config.channel_token = ENV['LINE_CHANNEL_TOKEN']
