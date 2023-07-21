@@ -13,15 +13,15 @@ class LinebotController < ApplicationController
       case event
       when Line::Bot::Event::Join
         LineGroup.find_or_create_by(line_group_id: event['source']['groupId'])
-        message_1 = {
+        message1 = {
           type: 'text',
           text: 'こんにちは！グループに追加してくれてありがとう！'
         }
-        message_2 = {
+        message2 = {
           type: 'text',
           text: '仲良い人同士だと予定の詳細決めナマけちゃうことあるよね！'
         }
-        message_3 = {
+        message3 = {
           type: 'text',
           text: "なまけちゃいそうな予定が立ったら決まってることだけ見える化しておこう！！\n（※返信に時間がかかる場合があります）"
         }
@@ -30,7 +30,7 @@ class LinebotController < ApplicationController
           altText: 'メッセージを送信しました',
           contents: join_message
         }
-        client.reply_message(event['replyToken'], [message_1, message_2, message_3, flex_message])
+        client.reply_message(event['replyToken'], [message1, message2, message3, flex_message])
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
@@ -83,7 +83,7 @@ class LinebotController < ApplicationController
           elsif schedule.status == 'start_time'
             if event.message['text'] == '未定'
               choose_representative(event, schedule)
-              set_deadline_without_start_time(schedule)
+              deadline_without_start_time(schedule)
               schedule.update(status: 2)
               message = {
                 type: 'text',
@@ -115,18 +115,18 @@ class LinebotController < ApplicationController
               type: 'text',
               text: '予定決められて偉い！また予定立ちそうになったら呼んでね！'
             }
-            flex_message_1 = {
+            flex_message1 = {
               type: 'flex',
               altText: 'メッセージを送信しました',
               contents: read_flex_message_finalized(schedule)
             }
-            flex_message_2 = {
+            flex_message2 = {
               type: 'flex',
               altText: 'メッセージを送信しました',
               contents: join_message
             }
             schedule.destroy
-            client.reply_message(event['replyToken'], [message, flex_message_1, flex_message_2])
+            client.reply_message(event['replyToken'], [message, flex_message1, flex_message2])
           end
         end
       when Line::Bot::Event::Postback
@@ -138,12 +138,14 @@ class LinebotController < ApplicationController
           }
           client.reply_message(event['replyToken'], message)
         end
-        if event['postback']['data'] == 'choose_schedule_date' && (schedule = Schedule.find_by(line_group_id: event['source']['groupId'])) && (schedule && schedule.status == 'start_time')
+        if event['postback']['data'] == 'choose_schedule_date' &&
+           (schedule = Schedule.find_by(line_group_id: event['source']['groupId'])) &&
+           (schedule && schedule.status == 'start_time')
           datetime_param = params['events'][0]['postback']['params']['date']
           start_time = DateTime.parse(datetime_param).strftime('%Y-%m-%d')
           schedule.start_time = start_time
           choose_representative(event, schedule)
-          message_text = set_deadline_with_start_time(event, schedule)
+          message_text = deadline_with_start_time(event, schedule)
           schedule.update(status: 2)
           message = {
             type: 'text',
@@ -156,7 +158,8 @@ class LinebotController < ApplicationController
           }
           client.reply_message(event['replyToken'], [message, flex_message])
         end
-        if event['postback']['data'] == 'send_message_from_bot' && (schedule = Schedule.find_by(line_group_id: event['source']['groupId']))
+        if event['postback']['data'] == 'send_message_from_bot' &&
+           (schedule = Schedule.find_by(line_group_id: event['source']['groupId']))
           message = {
             type: 'text',
             text: "#{schedule.representative}さん！\nまだ決まってない予定があるよ！皆で決めよう！"
