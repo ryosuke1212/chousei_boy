@@ -38,6 +38,8 @@ module LinebotHelper
     # "footer"部分を削除
     message.delete('footer')
     message['styles'].delete('footer')
+    # フレックスメッセージのリンク部分を削除
+    message.delete('action')
 
     message
   end
