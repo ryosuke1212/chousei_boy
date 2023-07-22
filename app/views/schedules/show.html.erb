@@ -3,8 +3,24 @@
     <div class="section-header text-center">
       <h4>予定詳細</h4>
     </div>
-    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-      <%= render partial: 'schedule', locals: { schedule: @schedule } %>
-    </div>
+    <% if @schedule %>
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+        <%= render partial: 'schedule', locals: { schedule: @schedule } %>
+      </div>
+    <% else %>
+      <div class="row">
+        <div class="col text-center">
+          <div class="text-center" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <div style="display: flex; align-items: center;">
+              <p class="mb-0" style="display: inline-block; margin-right: 10px;">予定が「確定」「削除」されると表示されないよ</p>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <p class="mb-0" style="display: inline-block; margin-left: 10px;">確認してみてね</p>
+              <%= image_tag "cheering_woman_color.png", alt: "cheering_woman_color", style: "width: 30px; height: 33px;" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
