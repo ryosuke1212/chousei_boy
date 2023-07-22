@@ -10809,7 +10809,7 @@ footer.footer .social-link:hover {
 
 .angle-down-container {
   position: absolute;
-  bottom: 30px;
+  bottom: 130px;
   left: 50%;
   transform: translateX(-50%);
 }
