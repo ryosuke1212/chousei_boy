@@ -4,24 +4,7 @@
       <h4>予定詳細</h4>
     </div>
     <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-      <div class="col-lg-4 col-md-6">
-        <div class="schedule-item" style="padding: 5px">
-          <div class="container">
-            <h5 style="margin-bottom: 0;"><%= @schedule.title %></h5>
-            <p><%= @schedule.description %></p>
-            <p>開始: <%= l(@schedule.start_time, format: :default, locale: :ja) if @schedule.start_time %></p>
-            <p>終了: <%= l(@schedule.end_time, format: :default, locale: :ja) if @schedule.end_time %></p>
-            <p>場所: <%= @schedule.location %></p>
-            <p>代表: <%= @schedule.representative %></p>
-            <p>締切: <%= l(@schedule.deadline, format: :default, locale: :ja) if @schedule.deadline %></p>
-          </div>
-          <div class="button-container text-end">
-            <%= link_to edit_schedule_path(@schedule), class: 'card-link edit-link' do %>
-              <i class="fas fa-edit fa-1x"></i>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'schedule', locals: { schedule: @schedule } %>
     </div>
   </div>
 </div>
