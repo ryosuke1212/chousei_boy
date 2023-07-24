@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe LinebotController, type: :controller do
   describe 'POST #callback' do
     let(:line_group) { LineGroup.create(line_group_id: 'dummy_group_id') }
-    let!(:schedule) { Schedule.create(line_group_id: line_group.line_group_id, status: 'title') } 
+    let!(:schedule) { Schedule.create(line_group_id: line_group.line_group_id, status: 'title') }
     let(:event) do
       {
         'type' => 'message',
@@ -27,7 +27,7 @@ RSpec.describe LinebotController, type: :controller do
 
     before do
       request.headers['CONTENT_TYPE'] = 'application/json; charset=UTF-8'
-      
+
       # Mock the external API call
       allow(Net::HTTP).to receive(:start).and_return(
         double(
@@ -35,7 +35,7 @@ RSpec.describe LinebotController, type: :controller do
         )
       )
 
-      post :callback, body: body, as: :json
+      post :callback, body:, as: :json
     end
 
     it 'responds successfully' do
