@@ -39,24 +39,7 @@ class LinebotController < ApplicationController
           if (user = User.find_by(uid: event['source']['userId']))
             LineGroupsUser.find_or_create_by(line_group:, user:)
           else
-            guest_user = GuestUser.find_by(guest_uid: event['source']['userId'])
-            if guest_user.nil?
-              guest_user = GuestUser.create(guest_uid: event['source']['userId'])
-              # ゲストユーザーの名前を取得し保存する
-              uri = URI.parse("https://api.line.me/v2/bot/group/#{line_group.line_group_id}/member/#{guest_user.guest_uid}")
-              request = Net::HTTP::Get.new(uri)
-              request['Authorization'] = "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
-              req_options = {
-                use_ssl: uri.scheme == 'https'
-              }
-              response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-                http.request(request)
-              end
-              user_profile = JSON.parse(response.body)
-              guest_user.update(guest_name: user_profile['displayName'])
-            end
-            LineGroupsGuestUser.find_or_create_by(line_group_id: line_group.id,
-                                                  guest_user_id: guest_user.id)
+            GuestUser.find_or_create_with_line_profile!(event['source']['userId'], line_group.id)
           end
           if schedule.status == 'title'
             if event.message['text'] == '未定'
