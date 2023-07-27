@@ -124,7 +124,7 @@ class LinebotController < ApplicationController
         if event['postback']['data'] == 'choose_schedule_date' &&
            (schedule = Schedule.find_by(line_group_id: event['source']['groupId'])) &&
            (schedule && schedule.status == 'start_time')
-          datetime_param = params['events'][0]['postback']['params']['date']
+          datetime_param = extract_date_from_postback_params(params)
           start_time = DateTime.parse(datetime_param).strftime('%Y-%m-%d')
           schedule.start_time = start_time
           choose_representative(event, schedule)
@@ -186,6 +186,10 @@ class LinebotController < ApplicationController
       Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
       @response = "何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
     end
+  end
+
+  def extract_date_from_postback_params(params)
+    params['events'][0]['postback']['params']['date']
   end
 
   def generate_unique_url_token

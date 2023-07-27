@@ -25,21 +25,21 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    @schedule = Schedule.find_by(url_token: params[:url_token])
+    @schedule = find_schedule_by_url_token
   end
 
   def destroy
-    @schedule = Schedule.find_by(url_token: params[:url_token])
+    @schedule = find_schedule_by_url_token
     @schedule.destroy
     redirect_to schedules_path, notice: '予定が削除されました。'
   end
 
   def edit
-    @schedule = Schedule.find_by(url_token: params[:url_token])
+    @schedule = find_schedule_by_url_token
   end
 
   def update
-    @schedule = Schedule.find_by(url_token: params[:url_token])
+    @schedule = find_schedule_by_url_token
     start_time = schedule_params[:start_time].blank? ? nil : Time.zone.parse(schedule_params[:start_time])
     end_time = schedule_params[:end_time].blank? ? nil : Time.zone.parse(schedule_params[:end_time])
     deadline = schedule_params[:deadline].blank? ? nil : Time.zone.parse(schedule_params[:deadline])
@@ -58,5 +58,9 @@ class SchedulesController < ApplicationController
 
   def schedule_params
     params.require(:schedule).permit(:title, :start_time, :end_time, :representative, :location, :description, :deadline)
+  end
+
+  def find_schedule_by_url_token
+    Schedule.find_by(url_token: params[:url_token])
   end
 end
