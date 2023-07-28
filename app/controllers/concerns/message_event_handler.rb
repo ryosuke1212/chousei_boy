@@ -12,7 +12,7 @@ module MessageEventHandler
         GuestUser.find_or_create_with_line_profile!(event['source']['userId'], line_group.id)
       end
       if schedule.status == 'title'
-        if event.message['text'] == '未定'
+        if event.message['text'] =~ /未定|みてい|ミテイ/
           message = {
             type: 'text',
             text: "予定なんてそんなもんよね！これから決めてこ！\n流石にいつの予定かは決めてるよね？決まってなければ「未定」でも良いよ！"
@@ -34,7 +34,7 @@ module MessageEventHandler
         schedule.update(status: 1)
         client.reply_message(event['replyToken'], [message, flex_message])
       elsif schedule.status == 'start_time'
-        if event.message['text'] == '未定'
+        if event.message['text'] =~ /未定|みてい|ミテイ/
           choose_representative(event, schedule)
           deadline_without_start_time(schedule)
           schedule.update(status: 2)
