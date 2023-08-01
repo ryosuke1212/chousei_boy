@@ -13,6 +13,7 @@ module LinebotHelper
       schedule.description.present? ? schedule.description : '-'
     message['body']['contents'][3]['contents'][1]['contents'][1]['text'] =
       schedule.deadline.present? ? schedule.deadline.strftime('%-m月%-d日') : '-'
+    message['footer']['contents'][1]['action']['uri'] = "#{ENV['SCHEDULE_EDIT_URL']}#{schedule.url_token}"
     message['action']['uri'] = "https://sorosorokimeyo-b9a94739722d.herokuapp.com/schedules/#{schedule.url_token}"
 
     message
