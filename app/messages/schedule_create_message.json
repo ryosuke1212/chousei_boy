@@ -94,34 +94,48 @@
     "layout": "horizontal",
     "contents": [
       {
-        "type": "button",
+        "type": "text",
+        "text": "bot発信",
+        "size": "sm",
+        "align": "center",
         "action": {
           "type": "postback",
           "label": "bot発信",
           "data": "send_message_from_bot"
-        },
-        "margin": "none",
-        "height": "sm"
+        }
       },
       {
-        "type": "button",
+        "type": "text",
+        "text": "編集",
+        "size": "sm",
+        "align": "center",
+        "action": {
+          "type": "uri",
+          "label": "編集",
+          "uri": "uri"
+        }
+      },
+      {
+        "type": "text",
+        "text": "確定",
+        "size": "sm",
+        "align": "center",
         "action": {
           "type": "message",
           "label": "確定",
           "text": "予定を確定"
-        },
-        "margin": "none",
-        "height": "sm"
+        }
       },
       {
-        "type": "button",
+        "type": "text",
+        "text": "削除",
+        "size": "sm",
+        "align": "center",
         "action": {
           "type": "message",
           "label": "削除",
           "text": "予定を削除"
-        },
-        "margin": "none",
-        "height": "sm"
+        }
       }
     ],
     "height": "50px"
