@@ -1,4 +1,6 @@
-# sorosorokimeyo
+# そろそろ決め代
+## サービスURL
+https://sorosorokimeyo.com/
 
 ## サービス概要
 
