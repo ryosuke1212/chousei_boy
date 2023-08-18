@@ -118,6 +118,8 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    meta-tags (2.18.0)
+      actionpack (>= 3.2.0, < 7.1)
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.2)
@@ -317,6 +319,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   line-bot-api
   listen (~> 3.3)
+  meta-tags
   omniauth-line
   omniauth-rails_csrf_protection
   pg
