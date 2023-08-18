@@ -2,7 +2,7 @@ module ApplicationHelper
   def default_meta_tags
     {
       site: 'そろそろ決め代',
-      title: 'なかなか決まらない友だちとの予定決めを促してくれるLINEbot',
+      title: 'なかなか決まらない友だちとの予定決めをサポートしてくれるLINEbotアプリ',
       reverse: true,
       charset: 'utf-8',
       description: 'そろそろあの予定を決めませんか？',
