@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_22_135651) do
+ActiveRecord::Schema.define(version: 2023_08_22_140837) do
 
   create_table "guest_users", force: :cascade do |t|
     t.string "guest_uid", null: false
@@ -21,13 +21,11 @@ ActiveRecord::Schema.define(version: 2023_08_22_135651) do
   end
 
   create_table "leadership_awards", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.string "award_name"
     t.integer "schedule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["schedule_id"], name: "index_leadership_awards_on_schedule_id"
-    t.index ["user_id"], name: "index_leadership_awards_on_user_id"
   end
 
   create_table "line_groups", force: :cascade do |t|
@@ -94,7 +92,6 @@ ActiveRecord::Schema.define(version: 2023_08_22_135651) do
   end
 
   add_foreign_key "leadership_awards", "schedules"
-  add_foreign_key "leadership_awards", "users"
   add_foreign_key "line_groups_guest_users", "guest_users"
   add_foreign_key "line_groups_guest_users", "line_groups"
 end
