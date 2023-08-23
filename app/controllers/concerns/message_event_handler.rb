@@ -64,9 +64,17 @@ module MessageEventHandler
         client.reply_message(event['replyToken'], [message, flex_message])
       end
       if event.message['text'] == '予定を確定'
+        # 予定を決めるのにかかった時間に応じて称号を付与
+        award_name = Schedule.assign_award(schedule)
+        message_text = if award_name
+                         comment = award_name == '決断の神' ? 'めちゃくちゃ予定決めるの早かったね！' : '予定決めるの上手だね！'
+                         "#{comment}#{schedule.representative}さんは「#{award_name}」だよ！\nまた予定立ちそうになったら呼んでね！"
+                       else
+                         '予定決められて偉い！また予定立ちそうになったら呼んでね！'
+                       end
         message = {
           type: 'text',
-          text: '予定決められて偉い！また予定立ちそうになったら呼んでね！'
+          text: message_text
         }
         flex_message1 = {
           type: 'flex',

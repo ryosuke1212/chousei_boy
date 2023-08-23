@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_04_074456) do
+ActiveRecord::Schema.define(version: 2023_08_23_130356) do
 
   create_table "guest_users", force: :cascade do |t|
     t.string "guest_uid", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2023_07_04_074456) do
     t.string "line_group_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status"
   end
 
   create_table "line_groups_guest_users", force: :cascade do |t|
@@ -41,6 +42,16 @@ ActiveRecord::Schema.define(version: 2023_07_04_074456) do
     t.integer "user_id", null: false
   end
 
+  create_table "pending_schedules", force: :cascade do |t|
+    t.string "title"
+    t.datetime "start_time"
+    t.string "representative"
+    t.datetime "deadline"
+    t.string "line_group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "schedules", force: :cascade do |t|
     t.string "title"
     t.datetime "start_time"
@@ -55,6 +66,7 @@ ActiveRecord::Schema.define(version: 2023_07_04_074456) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status"
     t.string "url_token"
+    t.string "leadership_award"
   end
 
   create_table "users", force: :cascade do |t|

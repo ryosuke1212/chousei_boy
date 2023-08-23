@@ -7,4 +7,16 @@ class Schedule < ApplicationRecord
   def to_param
     url_token
   end
+
+  def self.assign_award(schedule)
+    time_difference = Time.now - schedule.created_at
+
+    award_name = case time_difference
+                 when 0..(24 * 3600) then '決断の神'
+                 when (24 * 3600 + 1)..(3 * 24 * 3600) then '決断名人'
+                 end
+
+    schedule.update(leadership_award: award_name) if award_name
+    award_name
+  end
 end
