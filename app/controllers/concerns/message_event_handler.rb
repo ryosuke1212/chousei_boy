@@ -12,7 +12,14 @@ module MessageEventHandler
         GuestUser.find_or_create_with_line_profile!(event['source']['userId'], line_group.id)
       end
       if schedule.status == 'title'
-        if event.message['text'] =~ /未定|みてい|ミテイ/
+        if event.message['text'] == '予定を確定' || event.message['text'] == '予定を削除'
+          message = {
+            type: 'text',
+            text: "タイトル入力待ちだよ！何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
+          }
+          client.reply_message(event['replyToken'], [message])
+          return
+        elsif event.message['text'] =~ /未定|みてい|ミテイ/
           message = {
             type: 'text',
             text: "予定なんてそんなもんよね！これから決めてこ！\n流石にいつの予定かは決めてるよね？決まってなければ「未定」でも良いよ！"
