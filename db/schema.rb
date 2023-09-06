@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_06_144118) do
+ActiveRecord::Schema.define(version: 2023_09_06_153717) do
 
   create_table "guest_users", force: :cascade do |t|
     t.string "guest_uid", null: false
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2023_09_06_144118) do
     t.string "line_group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "status"
+    t.integer "status", default: 0
   end
 
   create_table "users", force: :cascade do |t|
