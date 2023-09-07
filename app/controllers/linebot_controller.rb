@@ -50,7 +50,7 @@ class LinebotController < ApplicationController
     elsif temp_schedule && temp_schedule.status == 'start_time'
       @response = "日程入力待ちの予定があるよ！いつの予定かは決めてる？🕐\n決まってなかったら「未定」とチャットで教えてね！"
     else
-      temp_schedule = TempSchedule.create(line_group_id: groupId, status: 'title')
+      TempSchedule.create(line_group_id: groupId, status: 'title')
       @response = "何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
     end
   end

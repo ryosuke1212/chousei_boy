@@ -16,11 +16,11 @@ module ApplicationHelper
         type: 'website',
         url: request.original_url,
         image: image_url('ogp.png'),
-        local: 'ja-JP',
+        local: 'ja-JP'
       },
       twitter: {
         card: 'summary_large_image',
-        image: image_url('ogp.png'),
+        image: image_url('ogp.png')
       }
     }
   end
