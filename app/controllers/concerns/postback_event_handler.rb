@@ -27,6 +27,7 @@ module PostbackEventHandler
         url_token: generate_unique_url_token,
         status: 2
       )
+      temp_schedule.destroy
       message = {
         type: 'text',
         text: message_text
