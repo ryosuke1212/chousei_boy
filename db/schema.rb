@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_06_153717) do
+ActiveRecord::Schema.define(version: 2023_09_07_111739) do
 
   create_table "guest_users", force: :cascade do |t|
     t.string "guest_uid", null: false
@@ -43,13 +43,13 @@ ActiveRecord::Schema.define(version: 2023_09_06_153717) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.datetime "start_time"
     t.datetime "end_time"
     t.string "location"
     t.string "description"
-    t.string "representative"
-    t.datetime "deadline"
+    t.string "representative", null: false
+    t.datetime "deadline", null: false
     t.string "user_id"
     t.string "line_group_id"
     t.datetime "created_at", precision: 6, null: false
