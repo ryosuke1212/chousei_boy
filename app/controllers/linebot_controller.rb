@@ -42,10 +42,15 @@ class LinebotController < ApplicationController
 
   def create_action(event)
     groupId = event['source']['groupId']
+    temp_schedule = TempSchedule.find_by(line_group_id: groupId)
     if Schedule.find_by(line_group_id: groupId)
       @response = "まだ決め切ってない予定があるみたい。予定の「確定」ボタンか「削除」ボタンで新しい予定を作成できるよ！\nそれかチャット欄で「予定を確定」「予定を削除」と教えてね！"
+    elsif temp_schedule && temp_schedule.status == 'title'
+      @response = "タイトル入力待ちの予定があるよ！何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
+    elsif temp_schedule && temp_schedule.status == 'start_time'
+      @response = "日程入力待ちの予定があるよ！いつの予定かは決めてる？🕐\n決まってなかったら「未定」とチャットで教えてね！"
     else
-      Schedule.create(line_group_id: groupId, status: 'title', url_token: generate_unique_url_token)
+      temp_schedule = TempSchedule.create(line_group_id: groupId, status: 'title')
       @response = "何するか決まってる？遊び？飲み会？\n入力して教えて☆\n決まってなければ「未定」でもいいよ！"
     end
   end

@@ -5,13 +5,14 @@ module MessageEventHandler
     case event.type
     when Line::Bot::Event::MessageType::Text
       line_group = LineGroup.find_by(line_group_id: event['source']['groupId'])
+      temp_schedule = TempSchedule.find_by(line_group_id: event['source']['groupId'])
       schedule = Schedule.find_by(line_group_id: event['source']['groupId'])
       if (user = User.find_by(uid: event['source']['userId']))
         LineGroupsUser.find_or_create_by(line_group:, user:)
       else
         GuestUser.find_or_create_with_line_profile!(event['source']['userId'], line_group.id)
       end
-      if schedule.status == 'title'
+      if temp_schedule && temp_schedule.status == 'title'
         if event.message['text'] == '予定を確定' || event.message['text'] == '予定を削除'
           message = {
             type: 'text',
@@ -24,10 +25,10 @@ module MessageEventHandler
             type: 'text',
             text: "予定なんてそんなもんよね！これから決めてこ！\n流石にいつの予定かは決めてるよね？決まってなければ「未定」でも良いよ！"
           }
-          schedule.title = '何するかはこれから決めよう'
+          temp_schedule.title = '何するかはこれから決めよう'
         else
-          schedule.title = event.message['text']
-          schedule.save
+          temp_schedule.title = event.message['text']
+          temp_schedule.save
           message = {
             type: 'text',
             text: "【#{event.message['text']}】だね！\nいつの予定かは決めてる？🕐\n決まってなかったら「未定」とチャットで教えてね！"
@@ -38,13 +39,22 @@ module MessageEventHandler
           altText: 'メッセージを送信しました',
           contents: choose_datetime
         }
-        schedule.update(status: 1)
+        temp_schedule.update(status: 1)
         client.reply_message(event['replyToken'], [message, flex_message])
-      elsif schedule.status == 'start_time'
+      elsif  temp_schedule && temp_schedule.status == 'start_time'
         if event.message['text'] =~ /未定|みてい|ミテイ/
-          choose_representative(event, schedule)
-          deadline_without_start_time(schedule)
-          schedule.update(status: 2)
+          choose_representative(event, temp_schedule)
+          deadline_without_start_time(temp_schedule)
+          schedule = Schedule.create(
+            title: temp_schedule.title,
+            start_time: temp_schedule.start_time,
+            representative: temp_schedule.representative,
+            deadline: temp_schedule.deadline,
+            line_group_id: temp_schedule.line_group_id,
+            url_token: generate_unique_url_token,
+            status: 2
+          )
+          temp_schedule.destroy
           message = {
             type: 'text',
             text: "まだ日程は決まってないね！サクッと3日後までに決めちゃおう！\n今回は#{schedule.representative}さん中心で決めよう！"
