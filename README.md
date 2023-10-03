@@ -2,6 +2,9 @@
 ## サービスURL
 https://sorosorokimeyo.com/
 
+## Qiita記事
+https://qiita.com/ryooosuke1212/items/f2543533ae2da5366edf
+
 ## サービス概要
 
 友達と会う約束をしたものの、詳細を決めるのがいつも遅くなってしまう LINE ユーザーに
@@ -65,10 +68,6 @@ https://sorosorokimeyo.com/
   - 日程が決まらないとイベントを作成できない
   - Web サイトに飛ばないと回答できない
   - グループトークで定期的にリマインドしてくれる機能はない
-
-## スケジュール
-
-- 本リリース:8 月中旬
 
 ## 使用技術
 
